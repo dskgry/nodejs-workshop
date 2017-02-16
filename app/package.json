@@ -2,7 +2,7 @@
   "name": "twttr",
   "version": "0.1",
   "description": "awesome twttr app",
-  "repository": "",
+  "repository": "https://github.com/dskgry/clarissa",
   "author": "Manuel Rauber<manuel.rauber@thinktecture.com>, dskgry <sven.koelpin@outlook.com>",
   "license": "MIT",
   "scripts": {
