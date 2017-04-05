@@ -6,12 +6,12 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        vendor: ['react', 'react-dom', 'react-router'],
-        app: ['./src/main/Twttr.js']
+        vendor: ['babel-polyfill', 'react', 'react-dom', 'react-router-dom', 'axios', 'reactstrap'],
+        twttr: ['./src/main/Twttr.js']
     },
     output: {
-        filename: 'twttr.js',
-        chunkFilename: '[name].[chunkhash].js',
+        filename: '[name].js',
+        chunkFilename: '[name].js',
         publicPath: '/'
     },
     devtool: 'eval-source-map',
@@ -26,7 +26,19 @@ module.exports = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        presets: [["es2015", {"modules": false}], 'react']
+                        presets: [
+                            [
+                                "env",
+                                {
+                                    targets: {
+                                        browsers: ["last 2 versions"]
+                                    },
+                                    modules: false,
+                                    useBuiltIns: true
+                                }
+                            ],
+                            'react'
+                        ]
                     }
                 }],
             },
@@ -45,7 +57,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(jpe?g|png|gif|svg|eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?$/,
+                test: /\.(jpe?g|png|gif|svg|eot|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [{
                     loader: 'url-loader',
                     options: {

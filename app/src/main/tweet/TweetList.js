@@ -7,9 +7,7 @@ import Loading from '../component/Loading';
 import Tweet from './Tweet';
 
 
-const TweetList = props => {
-    const {tweets, loading} = props;
-
+const TweetList = ({tweets, loading}) => {
     if (loading) {
         return <Loading/>;
     }
@@ -27,10 +25,6 @@ TweetList.propTypes = {
         })
     ),
     loading: React.PropTypes.bool
-};
-
-TweetList.defaultProps = {
-    loading: false
 };
 
 export default TweetList;

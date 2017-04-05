@@ -1,56 +1,71 @@
 /**
  * @author Sven Koelpin
  */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import Navigation from '../nav/Navigation';
-import { Button, Form, FormGroup, Input, Label, Container, Row, Col } from 'reactstrap';
-import { signIn } from '../api/AuthService';
+import Loading from '../component/Loading';
+
+import { signIn } from './AuthService';
+import { ROUTES } from '../router/AppRouter';
 
 
-export default class AuthView extends Component {
-
-    constructor(props, state) {
-        super(props, state);
-        this.onLogin = this.onLogin.bind(this);
-        this.state = {
-            userName: '',
-            pass: ''
+class AuthView extends PureComponent {
+    static get propTypes() {
+        return {
+            history: React.PropTypes.object.isRequired
         }
     }
 
-    onLogin(e) {
-        e.preventDefault();
-        signIn();
+    constructor() {
+        super();
+        this.onLogin = this.onLogin.bind(this);
+        this.handleFormChange = this.handleFormChange.bind(this);
+
+        this.state = {
+            userName: '',
+            pass: '',
+            loading: false
+        }
     }
 
-    onChangeLogin({prop, val}) {
-        const nextState = {};
-        nextState[prop] = val;
-        this.setState(nextState);
+    async onLogin(event) {
+        event.preventDefault();
+        this.setState({loading: true});
+
+        try {
+            await signIn(this.state);
+            this.props.history.push(ROUTES.HOME);
+        } catch (e) {
+            this.setState({loading: false});
+        }
+    }
+
+    handleFormChange(event) {
+        this.setState({[event.target.name]: event.target.value});
     }
 
 
     render() {
-        const {userName, pass} = this.state;
+        const {userName, pass, loading} = this.state;
+
         return (
             <Container>
                 <Navigation/>
                 <Row>
                     <Col>
+                        {loading && <Loading cover/>}
                         <Form onSubmit={this.onLogin}>
                             <FormGroup>
                                 <Label>Your name</Label>
-                                <Input value={userName}
-                                       onChange={e => this.onChangeLogin({prop: 'userName', val: e.target.value})}
-                                       type="text"/>
+                                <Input name="userName" value={userName} onChange={this.handleFormChange} type="text"/>
                             </FormGroup>
                             <FormGroup>
                                 <Label>Your pass</Label>
-                                <Input value={pass}
-                                       onChange={e => this.onChangeLogin({prop: 'pass', val: e.target.value})}
-                                       type="text"/>
+                                <Input name="pass" value={pass} onChange={this.handleFormChange} type="password"/>
                             </FormGroup>
-                            <Button color="primary">Let's go</Button>
+                            <Button disabled={loading} color="primary">Let's go</Button>
                         </Form>
                     </Col>
                 </Row>
@@ -59,3 +74,5 @@ export default class AuthView extends Component {
     }
 
 }
+
+export default withRouter(AuthView);

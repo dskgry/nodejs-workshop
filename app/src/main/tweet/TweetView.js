@@ -1,44 +1,64 @@
 /**
  * @author Sven Koelpin
  */
-import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import * as ServerApi from '../api/ServerApi';
-import style from './tweetView.less';
+import React, { PureComponent } from 'react';
+import { Col, Container, Row } from 'reactstrap';
+import Navigation from '../nav/Navigation';
 import TweetForm from './TweetForm';
 import TweetList from './TweetList';
-import Navigation from '../nav/Navigation';
 
-export default class TweetView extends Component {
+import * as ServerApi from '../api/ServerApi';
+import style from './tweetView.less';
+import { getToken } from '../auth/AuthService';
 
-    constructor(props, state) {
-        super(props, state);
+export default class TweetView extends PureComponent {
+
+    constructor() {
+        super();
         this.onAddTweet = this.onAddTweet.bind(this);
+
         this.state = {
             tweets: [],
-            fetchingData: true
+            fetchingData: true,
+            user: getToken().name
         }
     }
 
     componentDidMount() {
-        ServerApi.get('tweets').then(tweets => this.setState({tweets, fetchingData: false}));
-        ServerApi.subscribe(newTweets => this.setState({
-            tweets: [...newTweets, ...this.state.tweets]
-        }));
+        this.fetchTweets();
+        ServerApi.subscribe(newTweets => this.setState({tweets: [...newTweets, ...this.state.tweets]}));
     }
 
     componentWillUnmount() {
         ServerApi.unSubscribe();
     }
 
+    async fetchTweets() {
+        try {
+            const tweets = await ServerApi.get('tweets');
+            this.setState({tweets, fetchingData: false});
+        } catch (e) {
+            this.setState({fetchingData: false});
+        }
+    }
 
-    onAddTweet(newTweet) {
+
+    async onAddTweet(newTweet) {
         this.setState({fetchingData: true});
-        ServerApi.post('tweets', newTweet).then(tweets => this.setState({tweets, fetchingData: false}));
+        try {
+            const createdTweet = await ServerApi.post('tweets', newTweet);
+
+            this.setState({
+                tweets: [createdTweet, ...this.state.tweets],
+                fetchingData: false
+            });
+        } catch (e) {
+            this.setState({fetchingData: false});
+        }
     }
 
     render() {
-        const {tweets, fetchingData} = this.state;
+        const {tweets, fetchingData, user} = this.state;
 
         return (
             <Container>
@@ -46,7 +66,7 @@ export default class TweetView extends Component {
                 <Row>
                     <Col>
                         <div className={style.tweetView}>
-                            <TweetForm onAddTweet={this.onAddTweet}/>
+                            <TweetForm user={user} onAddTweet={this.onAddTweet} loading={fetchingData}/>
                             <TweetList tweets={tweets} loading={fetchingData}/>
                         </div>
                     </Col>

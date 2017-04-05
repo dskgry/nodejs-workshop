@@ -247,15 +247,6 @@
     "no-use-before-define": 0,
     // disallow use of variables before they are defined
 
-    //
-    //Stylistic Issues
-    //
-    // These rules are purely matters of style and are quite subjective.
-    //
-    "indent": [
-      1,
-      2
-    ],
     // this option sets a specific tab width for your code (off by default)
     "brace-style": 1,
     // enforce one true brace style (off by default)
@@ -329,7 +320,6 @@
     // disallow trailing whitespace at the end of lines
     "no-underscore-dangle": 1,
     // disallow dangling underscores in identifiers
-    "no-wrap-func": 1,
     // disallow wrapping of non-IIFE statements in parens
     "one-var": [
       1,
@@ -358,13 +348,6 @@
         "after": true
       }
     ],
-    // enforce spacing before and after semicolons
-    "sort-vars": 0,
-    // sort variables within the same declaration block (off by default)
-    "space-after-keywords": [
-      1,
-      "always"
-    ],
     // require a space after certain keywords (off by default)
     "space-before-blocks": [
       1,
@@ -378,20 +361,10 @@
         "named": "never"
       }
     ],
-    // require or disallow space before function opening parenthesis (off by default)
-    "space-in-brackets": [
-      1,
-      "never"
-    ],
     // require or disallow spaces inside brackets (off by default)
     "space-in-parens": [
       1,
       "never"
-    ],
-    // require spaces around operators
-    "space-return-throw-case": [
-      1,
-      "always"
     ],
     // require a space after return, throw, and case
     "space-unary-ops": [
@@ -400,11 +373,6 @@
         "words": true,
         "nonwords": false
       }
-    ],
-    // Require or disallow spaces before/after unary operators (words on by default, nonwords off by default)
-    "spaced-line-comment": [
-      1,
-      "always"
     ],
     // require or disallow a space immediately following the // in a line comment (off by default)
     "wrap-regex": 0,
@@ -430,7 +398,10 @@
     // While the names of the rules may not match up with the JSHint/JSLint counterpart,
     // the functionality is the same.
     //
-    "max-depth": ["error", 4],
+    "max-depth": [
+      "error",
+      4
+    ],
     // specify the maximum depth that blocks can be nested (off by default)
     "max-len": [
       2,

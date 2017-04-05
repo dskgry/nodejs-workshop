@@ -2,6 +2,8 @@
  * @author Sven Koelpin
  */
 
+import { getToken } from '../auth/AuthService';
+
 const DATA = {
     tweets: [
         {
@@ -34,7 +36,7 @@ export const get = url => {
                     resolve(DATA.tweets);
                     break;
                 default:
-                    reject('fuck u');
+                    reject();
             }
         }, parseInt(Math.random() * 1000, 10))
     });
@@ -46,11 +48,12 @@ export const post = (url, tweet) => {
         setTimeout(() => {
             switch (url) {
                 case 'tweets':
-                    DATA.tweets = [{id: DATA.tweets.length + 1, tweet, user: '@realSven'}, ...DATA.tweets];
-                    resolve(DATA.tweets);
+                    const newTweet = {id: DATA.tweets.length + 1, tweet, user: getToken().name};
+                    DATA.tweets = [newTweet, ...DATA.tweets];
+                    resolve(newTweet);
                     break;
                 default:
-                    reject('fuck u');
+                    reject();
             }
         }, parseInt(Math.random() * 1000, 10))
     });
@@ -66,7 +69,7 @@ export const subscribe = cb => {
         }];
         DATA.tweets = [...nextTweets, ...DATA.tweets];
         cb(nextTweets);
-    }, parseInt(Math.random() * 5000, 10));
+    }, parseInt(5000, 10));
 };
 
 export const unSubscribe = () => {

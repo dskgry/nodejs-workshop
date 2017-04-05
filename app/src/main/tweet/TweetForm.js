@@ -1,61 +1,63 @@
 /**
  * @author Sven Koelpin
  */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Button, Form, FormGroup, Input } from 'reactstrap';
 import style from './tweetForm.less';
 
 const MAX_TWEET_LENGTH = 100;
 
-export default class TweetForm extends Component {
+export default class TweetForm extends PureComponent {
     static get propTypes() {
         return {
-            onAddTweet: React.PropTypes.func.isRequired
+            onAddTweet: React.PropTypes.func.isRequired,
+            loading: React.PropTypes.bool,
+            user: React.PropTypes.string.isRequired
         }
     }
 
-    constructor(props, state) {
-        super(props, state);
+    constructor(props) {
+        super(props);
         this.onChangeTweet = this.onChangeTweet.bind(this);
         this.onSubmitTweet = this.onSubmitTweet.bind(this);
-        this.state = {
-            tweet: '',
-            invalid: false
-        }
+
+        this.state = {tweet: ''}
     }
 
-    onSubmitTweet(e) {
-        e.preventDefault();
-        const {onAddTweet} = this.props;
-        onAddTweet(this.state.tweet);
-        this.setState({
-            tweet: ''
-        });
+    onSubmitTweet(event) {
+        event.preventDefault();
+        this.props.onAddTweet(this.state.tweet);
+        this.setState({tweet: ''});
     }
 
-    onChangeTweet(e) {
-        const tweet = e.target.value;
+    onChangeTweet(event) {
+        const tweet = event.target.value;
+
         if (tweet.length <= MAX_TWEET_LENGTH) {
-            this.setState({tweet, invalid: false});
-        } else {
-            this.setState({invalid: true});
+            this.setState({tweet});
         }
     }
 
 
     render() {
-        const {tweet, invalid} = this.state;
+        const {loading, user} = this.props;
+        const {tweet} = this.state;
+
         return (
             <Form inline onSubmit={this.onSubmitTweet}>
-                <FormGroup color={invalid ? 'danger' : null} className={style.form}>
+                <FormGroup className={style.form}>
+                    <span>{user}:</span>
                     <Input value={tweet}
+                           disabled={loading}
                            max={MAX_TWEET_LENGTH}
                            onChange={this.onChangeTweet}
                            type="text"
                            name="tweet"
                            placeholder="Tweet what u want"/>
+
                     <span>{tweet.length}/{MAX_TWEET_LENGTH}</span>
-                    <Button color="primary">Let's do this</Button>
+
+                    <Button disabled={loading || tweet.length === 0} color="primary">Let's do this</Button>
                 </FormGroup>
             </Form>
         );

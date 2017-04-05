@@ -11,7 +11,7 @@ const Tweet = props => {
     return (
         <ListGroupItem className={style.tweet}>
             <ListGroupItemHeading>{user}</ListGroupItemHeading>
-            <ListGroupItemText>{tweet}</ListGroupItemText>
+            <ListGroupItemText className={style.content}>{tweet}</ListGroupItemText>
         </ListGroupItem>
     );
 };

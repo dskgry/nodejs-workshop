@@ -4,16 +4,18 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 
 module.exports = {
     context: path.resolve(__dirname),
     entry: {
-        vendor: ['react', 'react-dom', 'react-router'],
-        app: ['./src/main/Twttr.js']
+        vendor: ['babel-polyfill', 'react', 'react-dom', 'react-router-dom', 'axios', 'reactstrap'],
+        twttr: ['./src/main/Twttr.js']
     },
     output: {
-        filename: './dist/twttr.[hash].js',
-        chunkFilename: './dist/chunk.[chunkhash].js'
+        filename: './dist/[name].js',
+        chunkFilename: './dist/[name].js'
     },
     module: {
         rules: [
@@ -22,7 +24,19 @@ module.exports = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        presets: [["es2015", {"modules": false}], 'react']
+                        presets: [
+                            [
+                                "env",
+                                {
+                                    targets: {
+                                        browsers: ["last 2 versions"]
+                                    },
+                                    modules: false,
+                                    useBuiltIns: true
+                                }
+                            ],
+                            'react'
+                        ]
                     }
                 }],
             },
@@ -45,7 +59,7 @@ module.exports = {
                 })
             },
             {
-                test: /\.(jpe?g|png|gif|svg|eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?$/,
+                test: /\.(jpe?g|png|gif|svg|eot|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [{
                     loader: 'url-loader',
                     options: {
@@ -65,7 +79,7 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             minChunks: Infinity,
-            filename: './dist/vendor.[hash].js'
+            filename: './dist/vendor.js'
         }),
         new webpack.LoaderOptionsPlugin({
             minimize: true,
@@ -89,8 +103,13 @@ module.exports = {
             },
         }),
         new ExtractTextPlugin({
-            filename: './dist/[hash].css',
+            filename: './dist/twttr.css',
             allChunks: true
         }),
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: './dist/report.html',
+            openAnalyzer: false
+        })
     ]
 };
