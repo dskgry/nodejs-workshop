@@ -1,0 +1,23 @@
+{
+  "name": "twttr",
+  "version": "0.1",
+  "description": "awesome twttr server",
+  "repository": "https://github.com/dskgry/clarissa",
+  "author": "Manuel Rauber<manuel.rauber@thinktecture.com>, dskgry <sven.koelpin@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint src",
+    "server": "node ./src/RunServer"
+  },
+  "dependencies": {
+    "bunyan": "^1.8.8",
+    "jsonwebtoken": "^7.3.0",
+    "restify": "^4.3.0",
+    "rethinkdb": "^2.3.3",
+    "yup": "^0.21.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.17.0"
+  }
+}
