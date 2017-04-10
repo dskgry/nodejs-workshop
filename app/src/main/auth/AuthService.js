@@ -27,7 +27,7 @@ export const signIn = ({userName, pass}) => {
                 return resolve();
             }
             return reject();
-        }, 1000);
+        }, 250);
     });
 };
 

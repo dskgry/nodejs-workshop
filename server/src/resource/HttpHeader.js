@@ -7,7 +7,7 @@ const createLink = (rel, link) => {
     return '<' + link + '>; rel="' + rel + '"';
 };
 
-module.exports = ({req, res, page, size, max}) => {
+const addPagination = ({req, res, page, size, max}) => {
     //TODO prev etc
     const nextPage = page + 1;
     if ((nextPage * size) <= max) {
@@ -15,3 +15,13 @@ module.exports = ({req, res, page, size, max}) => {
         res.header('Link', nextLink);
     }
 };
+
+const addLocationHeader = ({req, res, id}) => {
+    res.header('Location', `http://${req.header('host')}${req.path()}/${id}`);
+};
+
+module.exports = {
+    addPagination,
+    addLocationHeader
+};
+

@@ -2,7 +2,7 @@
  * @author Sven Koelpin
  */
 import React, { PureComponent } from 'react';
-import { Button, Form, FormGroup, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import style from './tweetForm.less';
 
 const MAX_TWEET_LENGTH = 100;
@@ -26,7 +26,9 @@ export default class TweetForm extends PureComponent {
 
     onSubmitTweet(event) {
         event.preventDefault();
-        this.props.onAddTweet(this.state.tweet);
+        const {user, onAddTweet} = this.props;
+
+        onAddTweet({tweet: this.state.tweet, user});
         this.setState({tweet: ''});
     }
 
@@ -46,7 +48,7 @@ export default class TweetForm extends PureComponent {
         return (
             <Form inline onSubmit={this.onSubmitTweet}>
                 <FormGroup className={style.form}>
-                    <span>{user}:</span>
+                    <Label for="tweet">{user}:</Label>
                     <Input value={tweet}
                            disabled={loading}
                            max={MAX_TWEET_LENGTH}

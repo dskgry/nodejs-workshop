@@ -2,76 +2,51 @@
  * @author Sven Koelpin
  */
 
-import { getToken } from '../auth/AuthService';
+import axios from 'axios';
 
-const DATA = {
-    tweets: [
-        {
-            id: 1,
-            user: '@realDonaldTrump',
-            tweet: 'Windmills are the greatest threat in the US to both bald and golden eagles. ' +
-            'Media claims fictional ‘global warming’ is worse'
-        },
-        {
-            id: 2,
-            user: '@realDonaldTrump',
-            tweet: 'Sorry losers and haters, but my I.Q. is one of the highest -and you all know it! Please don’t' +
-            ' feel so stupid or insecure,it’s not your fault'
-        },
-        {
-            id: 3,
-            user: '@realDonaldTrump',
-            tweet: 'We should have gotten more of the oil in Syria, and we should have gotten more of the oil in ' +
-            'Iraq. Dumb leaders'
+// eslint-disable-next-line
+export const SERVER_URI = __DEVELOPMENT__ ? 'http://localhost:3001/' : '/api/';
+
+export const URLS = {
+    TWEETS: 'tweets',
+    TWEETS_STREAM: 'tweets/stream'
+};
+
+let eventStream = null;
+
+const axiosClient = axios.create({
+    baseURL: SERVER_URI,
+    timeout: 7000
+});
+
+const disableCache = path => {
+    if (path.indexOf('?') === -1) {
+        return path + '?t=' + new Date().getTime();
+    }
+    return path + '&t=' + new Date().getTime();
+};
+
+
+export default {
+    async get(path) {
+        const response = await axiosClient.get(disableCache(path));
+        return response.data;
+    },
+    async post(path, data) {
+        const response = await axiosClient.post(disableCache(path), data);
+        return response.data;
+    },
+    subscribeStream(onNewTweet) {
+        this.unSubscribeStream();
+        if (window.EventSource) {
+            eventStream = new EventSource(SERVER_URI + URLS.TWEETS_STREAM);
+            eventStream.addEventListener('message', event => onNewTweet(JSON.parse(event.data)));
         }
-    ]
-};
-
-
-export const get = url => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            switch (url) {
-                case 'tweets':
-                    resolve(DATA.tweets);
-                    break;
-                default:
-                    reject();
-            }
-        }, parseInt(Math.random() * 1000, 10))
-    });
-};
-
-
-export const post = (url, tweet) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            switch (url) {
-                case 'tweets':
-                    const newTweet = {id: DATA.tweets.length + 1, tweet, user: getToken().name};
-                    DATA.tweets = [newTweet, ...DATA.tweets];
-                    resolve(newTweet);
-                    break;
-                default:
-                    reject();
-            }
-        }, parseInt(Math.random() * 1000, 10))
-    });
-};
-
-
-export const subscribe = cb => {
-    window.svensFakeSocket = setInterval(() => {
-        const nextTweets = [{
-            id: DATA.tweets.length + 1,
-            tweet: 'Lorem bla in real time ' + new Date(),
-            user: '@realTimeSven'
-        }];
-        DATA.tweets = [...nextTweets, ...DATA.tweets];
-        cb(nextTweets);
-    }, parseInt(5000, 10));
-};
-
-export const unSubscribe = () => {
-    window.clearInterval(window.svensFakeSocket);
-};
+    },
+    unSubscribeStream() {
+        if (eventStream) {
+            eventStream.close();
+            eventStream = null;
+        }
+    }
+}

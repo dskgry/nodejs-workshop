@@ -13,8 +13,8 @@ const server = restify.createServer({
     log: logger,
     version: '1.0.0'
 });
-server.use(restify.throttle({burst: 2, rate: 2, ip: true}));
 server.use(restify.acceptParser(['application/json', 'text/event-stream']));
+server.use(restify.throttle({burst: 2, rate: 2, ip: true}));
 server.use(restify.CORS({origins: config.origins}));
 server.use(restify.requestLogger());
 server.use(restify.gzipResponse());

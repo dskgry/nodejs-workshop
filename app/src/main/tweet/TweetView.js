@@ -7,7 +7,7 @@ import Navigation from '../nav/Navigation';
 import TweetForm from './TweetForm';
 import TweetList from './TweetList';
 
-import * as ServerApi from '../api/ServerApi';
+import ServerApi, { URLS } from '../api/ServerApi';
 import style from './tweetView.less';
 import { getToken } from '../auth/AuthService';
 
@@ -20,25 +20,36 @@ export default class TweetView extends PureComponent {
         this.state = {
             tweets: [],
             fetchingData: true,
-            user: getToken().name
+            user: getToken().name,
+            error: false
         }
     }
 
-    componentDidMount() {
-        this.fetchTweets();
-        ServerApi.subscribe(newTweets => this.setState({tweets: [...newTweets, ...this.state.tweets]}));
+    async componentDidMount() {
+        await this.fetchTweets();
+        ServerApi.subscribeStream(this.streamTweets.bind(this));
     }
 
     componentWillUnmount() {
-        ServerApi.unSubscribe();
+        ServerApi.unSubscribeStream();
+    }
+
+    tweetIsNotFetched(newTweet) {
+        return typeof this.state.tweets.find(tweet => tweet.id === newTweet.id) === 'undefined';
+    }
+
+    streamTweets(newTweet) {
+        if (this.tweetIsNotFetched(newTweet)) {
+            this.setState({tweets: [newTweet, ...this.state.tweets]});
+        }
     }
 
     async fetchTweets() {
         try {
-            const tweets = await ServerApi.get('tweets');
+            const tweets = await ServerApi.get(URLS.TWEETS);
             this.setState({tweets, fetchingData: false});
         } catch (e) {
-            this.setState({fetchingData: false});
+            this.setState({fetchingData: false, error: true});
         }
     }
 
@@ -47,9 +58,11 @@ export default class TweetView extends PureComponent {
         this.setState({fetchingData: true});
         try {
             const createdTweet = await ServerApi.post('tweets', newTweet);
+            const nextTweets =
+                this.tweetIsNotFetched(createdTweet) ? [createdTweet, ...this.state.tweets] : this.state.tweets;
 
             this.setState({
-                tweets: [createdTweet, ...this.state.tweets],
+                tweets: nextTweets,
                 fetchingData: false
             });
         } catch (e) {
@@ -58,7 +71,7 @@ export default class TweetView extends PureComponent {
     }
 
     render() {
-        const {tweets, fetchingData, user} = this.state;
+        const {tweets, fetchingData, user, error} = this.state;
 
         return (
             <Container>
@@ -67,7 +80,7 @@ export default class TweetView extends PureComponent {
                     <Col>
                         <div className={style.tweetView}>
                             <TweetForm user={user} onAddTweet={this.onAddTweet} loading={fetchingData}/>
-                            <TweetList tweets={tweets} loading={fetchingData}/>
+                            <TweetList tweets={tweets} loading={fetchingData} error={error}/>
                         </div>
                     </Col>
                 </Row>
