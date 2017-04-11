@@ -5,21 +5,12 @@
 const RESOURCE_PATH = 'tweets';
 const STREAM_PATH = 'stream';
 
-const tweetService = require('./TweetService');
-const validation = require('../validation/Validation');
-const httpHeader = require('../resource/HttpHeader');
 const yup = require('yup');
+const validation = require('../resource/Validation');
+const httpHeader = require('../resource/HttpHeader');
 const cacheControl = require('../resource/CacheControl');
+const tweetService = require('./TweetService');
 
-const sendSSEResponse = res => {
-    res.handledGzip();
-    res.removeHeader('Content-Encoding');
-    res.writeHead(200, {
-        connection: 'keep-alive',
-        'content-type': 'text/event-stream; charset=utf-8',
-        'cache-control': 'no-cache'
-    });
-};
 
 const receiveTweets = async (req, res, next) => {
     const {page, size} = req.params;
@@ -40,6 +31,23 @@ const createTweet = async (req, res, next) => {
     res.send(201, newTweet);
 
     next();
+};
+
+
+const streamTweets = (req, res) => {
+    const onNewData = newData => res.write('data: ' + JSON.stringify(newData) + '\n\n');
+    req.addListener('close', () => tweetService.removeStreamListener(onNewData));
+    tweetService.addStreamListener(onNewData);
+
+    //gzip destroys sse so it must be handled before streaming the response
+    res.handledGzip();
+    res.removeHeader('Content-Encoding');
+
+    res.writeHead(200, {
+        connection: 'keep-alive',
+        'content-type': 'text/event-stream; charset=utf-8',
+        'cache-control': 'no-cache'
+    });
 };
 
 module.exports = server => {
@@ -63,13 +71,8 @@ module.exports = server => {
     );
 
 
-    server.get(RESOURCE_PATH + '/' + STREAM_PATH,
-        (req, res) => {
-            const onNewData = newData => res.write('data: ' + JSON.stringify(newData) + '\n\n');
-            req.addListener('close', () => tweetService.removeStreamListener(onNewData));
-            tweetService.addStreamListener(onNewData);
-
-            sendSSEResponse(res);
-        }
+    server.get(
+        RESOURCE_PATH + '/' + STREAM_PATH,
+        streamTweets
     );
 };

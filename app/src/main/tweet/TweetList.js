@@ -24,7 +24,7 @@ const TweetList = ({tweets, loading, error}) => {
 TweetList.propTypes = {
     tweets: React.PropTypes.arrayOf(
         React.PropTypes.shape({
-            id: React.PropTypes.number.isRequired,
+            id: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
             user: React.PropTypes.string.isRequired,
             tweet: React.PropTypes.string.isRequired
         })

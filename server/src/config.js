@@ -3,10 +3,10 @@
  */
 
 module.exports = {
-    logPath: 'C:/Users/svenk/dev/audiowolf_2017/logs/log.log',
+    logPath: null,
     dbPass: '',
     dbHost: 'localhost',
     dbPort: 28015,
-    dbName: 'analyzer',
+    dbName: 'twttr',
     origins: ['*']
 };
