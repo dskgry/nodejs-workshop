@@ -2,6 +2,7 @@
  * @author Sven Koelpin
  */
 import React from 'react';
+import { bool } from 'prop-types';
 import style from './loading.less';
 
 const Loading = ({cover}) => {
@@ -13,7 +14,7 @@ const Loading = ({cover}) => {
 };
 
 Loading.propTypes = {
-    cover: React.PropTypes.bool
+    cover: bool
 };
 
 export default Loading;

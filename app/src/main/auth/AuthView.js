@@ -2,6 +2,7 @@
  * @author Sven Koelpin
  */
 import React, { PureComponent } from 'react';
+import { object } from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import Navigation from '../nav/Navigation';
@@ -14,8 +15,8 @@ import { ROUTES } from '../router/AppRouter';
 class AuthView extends PureComponent {
     static get propTypes() {
         return {
-            history: React.PropTypes.object.isRequired
-        }
+            history: object.isRequired
+        };
     }
 
     constructor() {

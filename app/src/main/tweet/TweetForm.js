@@ -2,6 +2,7 @@
  * @author Sven Koelpin
  */
 import React, { PureComponent } from 'react';
+import { func, bool, string } from 'prop-types';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import style from './tweetForm.less';
 
@@ -10,10 +11,10 @@ const MAX_TWEET_LENGTH = 100;
 export default class TweetForm extends PureComponent {
     static get propTypes() {
         return {
-            onAddTweet: React.PropTypes.func.isRequired,
-            loading: React.PropTypes.bool,
-            user: React.PropTypes.string.isRequired
-        }
+            onAddTweet: func.isRequired,
+            loading: bool,
+            user: string.isRequired
+        };
     }
 
     constructor(props) {

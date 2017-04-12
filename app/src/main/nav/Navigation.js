@@ -2,6 +2,7 @@
  * @author Sven Koelpin
  */
 import React from 'react';
+import { bool } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Col, Navbar, Row } from 'reactstrap';
 import style from './navigation.less';
@@ -24,7 +25,7 @@ const Navigation = ({home}) => {
 };
 
 Navigation.propTypes = {
-    home: React.PropTypes.bool
+    home: bool
 };
 
 export default Navigation;

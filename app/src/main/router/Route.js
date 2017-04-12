@@ -2,6 +2,7 @@
  * @author Sven Koelpin
  */
 import React from 'react';
+import { func, bool } from 'prop-types'
 import { Redirect, Route as ReactRoute } from 'react-router-dom';
 import { isSignedIn } from '../auth/AuthService';
 import { ROUTES } from './AppRouter';
@@ -15,8 +16,8 @@ const Route = ({component, isPrivate}, ...props) => {
 };
 
 Route.propTypes = {
-    component: React.PropTypes.func.isRequired,
-    isPrivate: React.PropTypes.bool
+    component: func.isRequired,
+    isPrivate: bool
 };
 
 export default Route;

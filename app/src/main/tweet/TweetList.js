@@ -2,6 +2,7 @@
  * @author Sven Koelpin
  */
 import React from 'react';
+import { arrayOf, shape, oneOfType, string, number, bool } from 'prop-types';
 import { ListGroup } from 'reactstrap';
 import Loading from '../component/Loading';
 import Tweet from './Tweet';
@@ -22,15 +23,15 @@ const TweetList = ({tweets, loading, error}) => {
 
 
 TweetList.propTypes = {
-    tweets: React.PropTypes.arrayOf(
-        React.PropTypes.shape({
-            id: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
-            user: React.PropTypes.string.isRequired,
-            tweet: React.PropTypes.string.isRequired
+    tweets: arrayOf(
+        shape({
+            id: oneOfType([number, string]).isRequired,
+            user: string.isRequired,
+            tweet: string.isRequired
         })
     ),
-    loading: React.PropTypes.bool,
-    error: React.PropTypes.bool
+    loading: bool,
+    error: bool
 };
 
 export default TweetList;

@@ -2,6 +2,7 @@
  * @author Sven Koelpin
  */
 import React from 'react';
+import { shape, string } from 'prop-types';
 import { ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
 import style from './tweet.less';
 
@@ -17,9 +18,9 @@ const Tweet = props => {
 };
 
 Tweet.propTypes = {
-    tweet: React.PropTypes.shape({
-        user: React.PropTypes.string.isRequired,
-        tweet: React.PropTypes.string.isRequired
+    tweet: shape({
+        user: string.isRequired,
+        tweet: string.isRequired
     })
 };
 
