@@ -32,6 +32,8 @@ app:
  * get single tweet ("detail mode")
  * put / patch / delete tweets ("edit and delete mode")
  * authentication / authorization (only dummy impl. atm)
+ * HATEOAS, link relations
+ * collection envelopes (alternative pagination)
  * content negotiation
  * sockets (use case?)
  * file upload / attachments (use case: avatars?)
