@@ -54,7 +54,7 @@
 		1. NoSQL/SQL
 		2. ORMs (SequelizeJS, TypeORM)
 12. RethinkDB
-	1. Was ist es?
+	1. Was ist es? (Database.js vorstellen)
 	2. Stärken/Schwächen
 	3. Alternativen
 	4. Aufgaben
