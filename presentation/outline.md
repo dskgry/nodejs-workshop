@@ -52,7 +52,7 @@
 		3. Realtime
 	8. Push
 		1. Socket.io
-	9. Testing´
+	9. Testing
 		1. Aufgaben
 12. RethinkDB
 	1. Was ist es?
