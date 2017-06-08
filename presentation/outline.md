@@ -36,6 +36,7 @@
 				* AsyncAwait/Promises
 				* const/let
 				* ES Next
+				* Module
 			1. Eigener Server mit Restify erstellen
 			2. Eigene "Hello-World" Ressource
 	6. Testing
