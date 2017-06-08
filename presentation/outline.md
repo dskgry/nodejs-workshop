@@ -48,12 +48,11 @@
 	7. Security
 		1. Aufgabe
 			1. Eigene Middleware für Abfrage eines API-Keys im Authorization Header
-	9. Push
+	8. Push
 		1. Socket.io
-	8. Datenbankzugriff generell
+	9. Datenbankzugriff generell
 		1. NoSQL/SQL
 		2. ORMs (SequelizeJS, TypeORM)
-		3. Realtime
 12. RethinkDB
 	1. Was ist es?
 	2. Stärken/Schwächen
