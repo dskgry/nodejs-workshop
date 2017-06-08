@@ -28,7 +28,7 @@
 	1. Was ist es?
 	2. Stärken/Schwächen
 	3. Event Loop
-	4. Alternativen
+	4. Alternativen 
 	5. Restify
 		1. Aufgaben
 			0. JavaScript Übung
@@ -38,25 +38,29 @@
 				* ES Next
 			1. Eigener Server mit Restify erstellen
 			2. Eigene "Hello-World" Ressource
-			3. TweetResource
+	6. Testing
+		1. Aufgaben
+			1. TweetService
+				* TN bauen getTweet und createTweet (in Memory)
+				* Testing
+			2. TweetResource
 				* TN bauen Tweet Ressource selbst
-				* TN benutzen bestehenden Tweet Service für Streaming
-			4. TweetService
-				* TN bauen getTweet und createTweet
-	6. Security
+	7. Security
 		1. Aufgabe
 			1. Eigene Middleware für Abfrage eines API-Keys im Authorization Header
-	7. Datenbankzugriff generell
+	9. Push
+		1. Socket.io
+	8. Datenbankzugriff generell
 		1. NoSQL/SQL
 		2. ORMs (SequelizeJS, TypeORM)
 		3. Realtime
-	8. Push
-		1. Socket.io
-	9. Testing
-		1. Aufgaben
 12. RethinkDB
 	1. Was ist es?
 	2. Stärken/Schwächen
 	3. Alternativen
+	4. Aufgaben
+		1. TweetService umbauen, sodass er die RethinkDB benutzt
+			* TN benutzen bestehenden Tweet Service für Streaming
+			* TN bauen createTweet, countTweet und getTweet Methoden
 13. Ausblick: PWA
 14. Outro
