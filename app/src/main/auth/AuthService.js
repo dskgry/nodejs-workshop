@@ -14,22 +14,18 @@ export const getToken = () => {
     return jwt;
 };
 
-export const isSignedIn = () => {
-    return getToken() !== null;
-};
+export const isSignedIn = () => getToken() !== null;
 
-export const signIn = ({userName, pass}) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (pass === 'asdasd') {
-                jwt = {name: userName};
-                localStorage.setItem(TOKEN, JSON.stringify(jwt));
-                return resolve();
-            }
-            return reject();
-        }, 250);
-    });
-};
+export const signIn = ({userName, pass}) => new Promise((resolve, reject) => {
+    setTimeout(() => {
+        if (pass === 'asdasd') {
+            jwt = {name: userName};
+            localStorage.setItem(TOKEN, JSON.stringify(jwt));
+            return resolve();
+        }
+        return reject();
+    }, 250);
+});
 
 export const signOut = () => {
     jwt = null;

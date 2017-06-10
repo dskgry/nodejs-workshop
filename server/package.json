@@ -11,13 +11,13 @@
   },
   "dependencies": {
     "bunyan": "^1.8.8",
-    "jsonwebtoken": "^7.3.0",
+    "jsonwebtoken": "^7.4.1",
     "restify": "^4.3.0",
     "rethinkdb": "^2.3.3",
     "yup": "^0.21.3"
   },
   "devDependencies": {
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^7.2.3",
     "eslint": "^3.17.0"
   }
 }

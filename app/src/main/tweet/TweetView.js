@@ -22,7 +22,7 @@ export default class TweetView extends PureComponent {
             fetchingData: true,
             user: getToken().name,
             error: false
-        }
+        };
     }
 
     async componentDidMount() {
@@ -32,25 +32,6 @@ export default class TweetView extends PureComponent {
 
     componentWillUnmount() {
         ServerApi.unSubscribeStream();
-    }
-
-    tweetIsNotFetched(newTweet) {
-        return typeof this.state.tweets.find(tweet => tweet.id === newTweet.id) === 'undefined';
-    }
-
-    streamTweets(newTweet) {
-        if (this.tweetIsNotFetched(newTweet)) {
-            this.setState({tweets: [newTweet, ...this.state.tweets]});
-        }
-    }
-
-    async fetchTweets() {
-        try {
-            const tweets = await ServerApi.get(URLS.TWEETS);
-            this.setState({tweets, fetchingData: false});
-        } catch (e) {
-            this.setState({fetchingData: false, error: true});
-        }
     }
 
 
@@ -68,6 +49,25 @@ export default class TweetView extends PureComponent {
         } catch (e) {
             this.setState({fetchingData: false});
         }
+    }
+
+    async fetchTweets() {
+        try {
+            const tweets = await ServerApi.get(URLS.TWEETS);
+            this.setState({tweets, fetchingData: false});
+        } catch (e) {
+            this.setState({fetchingData: false, error: true});
+        }
+    }
+
+    streamTweets(newTweet) {
+        if (this.tweetIsNotFetched(newTweet)) {
+            this.setState({tweets: [newTweet, ...this.state.tweets]});
+        }
+    }
+
+    tweetIsNotFetched(newTweet) {
+        return typeof this.state.tweets.find(tweet => tweet.id === newTweet.id) === 'undefined';
     }
 
     render() {

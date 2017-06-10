@@ -78,9 +78,7 @@ module.exports = {
             name: 'vendor',
             minChunks: Infinity,
             filename: 'vendor.js'
-        }),
-        new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        })
     ]
 
 };

@@ -28,7 +28,7 @@ class AuthView extends PureComponent {
             userName: '',
             pass: '',
             loading: false
-        }
+        };
     }
 
     async onLogin(event) {
@@ -66,7 +66,7 @@ class AuthView extends PureComponent {
                                 <Label>Your pass</Label>
                                 <Input name="pass" value={pass} onChange={this.handleFormChange} type="password"/>
                             </FormGroup>
-                            <Button disabled={loading} color="primary">Let's go</Button>
+                            <Button disabled={loading} color="primary">Let&apos;s go</Button>
                         </Form>
                     </Col>
                 </Row>

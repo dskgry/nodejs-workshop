@@ -29,9 +29,10 @@ TweetList.propTypes = {
             user: string.isRequired,
             tweet: string.isRequired
         })
-    ),
-    loading: bool,
-    error: bool
+    ).isRequired,
+    loading: bool.isRequired,
+    error: bool.isRequired
 };
+
 
 export default TweetList;

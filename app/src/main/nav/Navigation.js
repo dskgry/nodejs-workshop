@@ -9,23 +9,25 @@ import style from './navigation.less';
 import { ROUTES } from '../router/AppRouter';
 import { signOut } from '../auth/AuthService';
 
-const Navigation = ({home}) => {
-    return (
-        <Row>
-            <Col>
-                <Navbar className={style.nav}>
-                    <h4>TWTTR</h4>
-                    {
-                        home && <Link to={ROUTES.AUTH} onClick={signOut}>Sign out</Link>
-                    }
-                </Navbar>
-            </Col>
-        </Row>
-    )
-};
+const Navigation = ({home}) => (
+    <Row>
+        <Col>
+            <Navbar className={style.nav}>
+                <h4>TWTTR</h4>
+                {
+                    home && <Link to={ROUTES.AUTH} onClick={signOut}>Sign out</Link>
+                }
+            </Navbar>
+        </Col>
+    </Row>
+);
 
 Navigation.propTypes = {
     home: bool
+};
+
+Navigation.defaultProps = {
+    home: false
 };
 
 export default Navigation;

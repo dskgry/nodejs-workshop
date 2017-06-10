@@ -21,7 +21,7 @@ Tweet.propTypes = {
     tweet: shape({
         user: string.isRequired,
         tweet: string.isRequired
-    })
+    }).isRequired
 };
 
 export default Tweet;

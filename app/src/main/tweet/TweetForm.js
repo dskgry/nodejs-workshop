@@ -12,7 +12,7 @@ export default class TweetForm extends PureComponent {
     static get propTypes() {
         return {
             onAddTweet: func.isRequired,
-            loading: bool,
+            loading: bool.isRequired,
             user: string.isRequired
         };
     }
@@ -22,7 +22,7 @@ export default class TweetForm extends PureComponent {
         this.onChangeTweet = this.onChangeTweet.bind(this);
         this.onSubmitTweet = this.onSubmitTweet.bind(this);
 
-        this.state = {tweet: ''}
+        this.state = {tweet: ''};
     }
 
     onSubmitTweet(event) {
@@ -50,17 +50,19 @@ export default class TweetForm extends PureComponent {
             <Form inline onSubmit={this.onSubmitTweet}>
                 <FormGroup className={style.form}>
                     <Label for="tweet">{user}:</Label>
-                    <Input value={tweet}
-                           disabled={loading}
-                           max={MAX_TWEET_LENGTH}
-                           onChange={this.onChangeTweet}
-                           type="text"
-                           name="tweet"
-                           placeholder="Tweet what u want"/>
+                    <Input
+                        value={tweet}
+                        disabled={loading}
+                        max={MAX_TWEET_LENGTH}
+                        onChange={this.onChangeTweet}
+                        type="text"
+                        name="tweet"
+                        placeholder="Tweet what u want"
+                    />
 
                     <span>{tweet.length}/{MAX_TWEET_LENGTH}</span>
 
-                    <Button disabled={loading || tweet.length === 0} color="primary">Let's do this</Button>
+                    <Button disabled={loading || tweet.length === 0} color="primary">Let&amps;s do this</Button>
                 </FormGroup>
             </Form>
         );

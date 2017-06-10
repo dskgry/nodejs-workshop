@@ -21,9 +21,9 @@ const axiosClient = axios.create({
 
 const disableCache = path => {
     if (path.indexOf('?') === -1) {
-        return path + '?t=' + new Date().getTime();
+        return `${path}?t=${new Date().getTime()}`;
     }
-    return path + '&t=' + new Date().getTime();
+    return `${path}&t=${new Date().getTime()}`;
 };
 
 
@@ -49,4 +49,4 @@ export default {
             eventStream = null;
         }
     }
-}
+};
