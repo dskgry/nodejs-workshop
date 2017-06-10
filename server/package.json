@@ -15,6 +15,7 @@
     "restify": "^4.3.0",
     "restify-cors-middleware": "0.0.8",
     "rethinkdb": "^2.3.3",
+    "ws": "^3.0.0",
     "yup": "^0.21.3"
   },
   "devDependencies": {

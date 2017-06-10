@@ -3,6 +3,8 @@
  */
 const restify = require('restify');
 const corsMiddleware = require('restify-cors-middleware');
+const webSocket = require('ws');
+const eventEmitter = require('../server/Events');
 const config = require('../config/config');
 const logger = require('./Logger');
 const security = require('../security/Security');
@@ -14,6 +16,7 @@ const server = restify.createServer({
     log: logger,
     version: '1.0.0'
 });
+
 server.on('uncaughtException', (req, res, route, err) => {
     logger.error(err);
     res.send(500);
@@ -37,6 +40,14 @@ server.use(restify.bodyParser({mapParams: false}));
 
 server.use(security);
 
+
+//socket
+const wss = new webSocket.Server({server});
+wss.on('connection', ws => {
+    const onEventListener = newData => ws.send(JSON.stringify(newData));
+    eventEmitter.addListener('newData', onEventListener);
+    ws.on('close', () => eventEmitter.removeListener('newData', onEventListener));
+});
 
 module.exports = {
     register(resource){

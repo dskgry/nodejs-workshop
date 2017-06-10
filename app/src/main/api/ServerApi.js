@@ -40,10 +40,11 @@ export default {
     },
     subscribeStream(onNewTweet) {
         this.unSubscribeStream();
-        if (window.EventSource) {
-            eventStream = new EventSource(`${SERVER_URI}${URLS.TWEETS_STREAM}?authorization=${AUTH_TOKEN}`);
-            eventStream.addEventListener('message', event => onNewTweet(JSON.parse(event.data)));
-        }
+        eventStream = new WebSocket('ws://localhost:3001');
+        eventStream.addEventListener('message', event => onNewTweet(JSON.parse(event.data)));
+        /* if (window.EventSource) {
+         eventStream = new EventSource(`${SERVER_URI}${URLS.TWEETS_STREAM}?authorization=${AUTH_TOKEN}`);
+         }*/
     },
     unSubscribeStream() {
         if (eventStream) {

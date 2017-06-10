@@ -13,7 +13,7 @@ const ALL_TWEETS = [...testData];
 const getTweets = async (start, size) => {
     const connection = dataBase.getConnection();
     if (connection) {
-        const dbResult = await r.table(dataBase.getTweetsTable()).slice(start, start + size).run(connection);
+        const dbResult = await r.table(dataBase.getTweetsTable()).orderBy(r.desc('createdAt')).slice(start, start + size).run(connection);
         return dbResult.toArray();
     }
 
@@ -35,12 +35,12 @@ const countTweets = async () => {
 const createTweet = async tweet => {
     const connection = dataBase.getConnection();
     if (connection) {
-        const result = await r.table(dataBase.getTweetsTable()).insert(tweet).run(connection);
+        const result = await r.table(dataBase.getTweetsTable()).insert(Object.assign({}, tweet, {createdAt: new Date().getTime()})).run(connection);
         return r.table(dataBase.getTweetsTable()).get(result.generated_keys[0]).run(connection);
     }
 
     //fallback: db is not running
-    const newTweet = Object.assign(tweet, {id: ALL_TWEETS.length + 1});
+    const newTweet = Object.assign({}, tweet, {id: ALL_TWEETS.length + 1});
     ALL_TWEETS.push(newTweet);
     eventEmitter.emit('newData', newTweet);
     return newTweet;

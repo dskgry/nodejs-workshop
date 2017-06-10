@@ -24,6 +24,7 @@ module.exports = {
     "globals": {
         "window": true,
         "EventSource": true,
-        "localStorage": true
+        "localStorage": true,
+        "WebSocket": true
     }
 };
