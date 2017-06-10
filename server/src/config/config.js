@@ -8,5 +8,6 @@ module.exports = {
     dbHost: 'localhost',
     dbPort: 28015,
     dbName: 'twttr',
-    origins: ['*']
+    origins: ['*'],
+    jwtSecret: 'summit-2017'
 };

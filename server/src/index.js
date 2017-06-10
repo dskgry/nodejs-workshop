@@ -3,9 +3,12 @@
  */
 
 const dataBase = require('./db/DataBase');
-const logger = require('./server/log/Logger');
-const server = require('./server/CreateServer');
+const logger = require('./server/Logger');
+const server = require('./server/Server');
 
+const tweetsResource = require('./tweets/TweetsResource');
+
+server.register(tweetsResource);
 
 dataBase.init()
     .then(() => server.start())

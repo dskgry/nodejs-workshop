@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { Col, Navbar, Row } from 'reactstrap';
 import style from './navigation.less';
 import { ROUTES } from '../router/AppRouter';
-import { signOut } from '../auth/AuthService';
+import { signOut } from '../auth/Auth';
 
 const Navigation = ({home}) => (
     <Row>

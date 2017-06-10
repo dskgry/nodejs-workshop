@@ -6,9 +6,8 @@ const RESOURCE_PATH = 'tweets';
 const STREAM_PATH = 'stream';
 
 const yup = require('yup');
-const validation = require('../resource/Validation');
-const httpHeader = require('../resource/HttpHeader');
-const cacheControl = require('../resource/CacheControl');
+const validation = require('../server/common/Validation');
+const httpHelper = require('../server/common/HttpHelper');
 const tweetService = require('./TweetService');
 
 
@@ -18,7 +17,7 @@ const receiveTweets = async (req, res, next) => {
 
     const [count, allTweets] = await Promise.all([tweetService.countTweets(), tweetService.getTweets(start, size)]);
 
-    httpHeader.addPagination({req, res, page, size, max: count});
+    httpHelper.addPagination({req, res, page, size, max: count});
     res.send(200, allTweets);
 
     next();
@@ -27,7 +26,7 @@ const receiveTweets = async (req, res, next) => {
 const createTweet = async (req, res, next) => {
     const newTweet = await tweetService.createTweet(req.body);
 
-    httpHeader.addLocationHeader({req, res, id: newTweet.id});
+    httpHelper.addLocationHeader({req, res, id: newTweet.id});
     res.send(201, newTweet);
 
     next();
@@ -35,7 +34,7 @@ const createTweet = async (req, res, next) => {
 
 
 const streamTweets = (req, res) => {
-    const onNewData = newData => res.write('data: ' + JSON.stringify(newData) + '\n\n');
+    const onNewData = newData => res.write(`data: ${JSON.stringify(newData)} \n\n`);
     req.addListener('close', () => tweetService.removeStreamListener(onNewData));
     tweetService.addStreamListener(onNewData);
 
@@ -57,7 +56,7 @@ module.exports = server => {
             page: yup.number().min(1).max(10).default(1),
             size: yup.number().min(1).max(100).default(10)
         }),
-        cacheControl.createEntityTag(() => tweetService.countTweets()),
+        httpHelper.createEntityTag(() => tweetService.countTweets()),
         receiveTweets
     );
 
@@ -72,7 +71,7 @@ module.exports = server => {
 
 
     server.get(
-        RESOURCE_PATH + '/' + STREAM_PATH,
+        `${RESOURCE_PATH}/${STREAM_PATH}`,
         streamTweets
     );
 };

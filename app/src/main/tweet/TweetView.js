@@ -9,7 +9,7 @@ import TweetList from './TweetList';
 
 import ServerApi, { URLS } from '../api/ServerApi';
 import style from './tweetView.less';
-import { getToken } from '../auth/AuthService';
+import { getToken } from '../auth/Auth';
 
 export default class TweetView extends PureComponent {
 

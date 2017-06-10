@@ -18,7 +18,7 @@ export const isSignedIn = () => getToken() !== null;
 
 export const signIn = ({userName, pass}) => new Promise((resolve, reject) => {
     setTimeout(() => {
-        if (pass === 'asdasd') {
+        if (pass === 'summit') {
             jwt = {name: userName};
             localStorage.setItem(TOKEN, JSON.stringify(jwt));
             return resolve();

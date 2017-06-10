@@ -4,15 +4,17 @@
 
 const r = require('rethinkdb');
 const dataBase = require('../db/DataBase');
-const ALL_TWEETS = [...require('../testdata')];
+const testData = require('../config/testdata');
 const eventEmitter = require('../server/Events');
+
+const ALL_TWEETS = [...testData];
 
 
 const getTweets = async (start, size) => {
     const connection = dataBase.getConnection();
     if (connection) {
         const dbResult = await r.table(dataBase.getTweetsTable()).slice(start, start + size).run(connection);
-        return await dbResult.toArray();
+        return dbResult.toArray();
     }
 
     //fallback: db is not running
@@ -23,7 +25,7 @@ const getTweets = async (start, size) => {
 const countTweets = async () => {
     const connection = dataBase.getConnection();
     if (connection) {
-        return await r.table(dataBase.getTweetsTable()).count().run(connection);
+        return r.table(dataBase.getTweetsTable()).count().run(connection);
     }
 
     //fallback: db is not running
@@ -34,7 +36,7 @@ const createTweet = async tweet => {
     const connection = dataBase.getConnection();
     if (connection) {
         const result = await r.table(dataBase.getTweetsTable()).insert(tweet).run(connection);
-        return await r.table(dataBase.getTweetsTable()).get(result.generated_keys[0]).run(connection);
+        return r.table(dataBase.getTweetsTable()).get(result.generated_keys[0]).run(connection);
     }
 
     //fallback: db is not running

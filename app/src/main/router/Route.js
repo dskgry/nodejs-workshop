@@ -4,7 +4,7 @@
 import React from 'react';
 import { func, bool } from 'prop-types';
 import { Redirect, Route as ReactRoute } from 'react-router-dom';
-import { isSignedIn } from '../auth/AuthService';
+import { isSignedIn } from '../auth/Auth';
 import { ROUTES } from './AppRouter';
 
 

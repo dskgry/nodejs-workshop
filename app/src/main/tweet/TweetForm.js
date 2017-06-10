@@ -62,7 +62,7 @@ export default class TweetForm extends PureComponent {
 
                     <span>{tweet.length}/{MAX_TWEET_LENGTH}</span>
 
-                    <Button disabled={loading || tweet.length === 0} color="primary">Let&amps;s do this</Button>
+                    <Button disabled={loading || tweet.length === 0} color="primary">Let&apos;s do this</Button>
                 </FormGroup>
             </Form>
         );

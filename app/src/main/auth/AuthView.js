@@ -8,7 +8,7 @@ import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from 'reac
 import Navigation from '../nav/Navigation';
 import Loading from '../component/Loading';
 
-import { signIn } from './AuthService';
+import { signIn } from './Auth';
 import { ROUTES } from '../router/AppRouter';
 
 

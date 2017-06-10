@@ -4,24 +4,23 @@
 const yup = require('yup');
 
 
-function validate({what, options, req, res, next, isPostBody}) {
+const validate = async ({what, options, req, res, next, isPostBody}) => {
     const validator = yup.object().shape(options);
 
-    validator.validate(what, {stripUnknown: isPostBody, abortEarly: false})
-        .then(value => {
-            if (isPostBody) {
-                req.body = value;
-            } else {
-                req.params = value;
-            }
-            next();
-        })
-        .catch(e => {
-            const errors = {};
-            e.inner.forEach(error => errors[error.path] = error.errors[0]);
-            res.send(400, errors);
-        });
-}
+    try {
+        const validated = await validator.validate(what, {stripUnknown: isPostBody, abortEarly: false});
+        if (isPostBody) {
+            req.body = validated;
+        } else {
+            req.params = validated;
+        }
+        next();
+    } catch (e) {
+        const errors = {};
+        e.inner.forEach(error => errors[error.path] = error.errors[0]);
+        res.send(400, errors);
+    }
+};
 
 const validateQueryParams = options => (req, res, next) => {
     const paramsToValidate = req.params;
