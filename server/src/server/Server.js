@@ -28,7 +28,7 @@ const cors = corsMiddleware({
     allowHeaders: ['Authorization']
 });
 server.pre(cors.preflight);
-server.pre(restify.throttle({burst: 2, rate: 2, ip: true}));
+server.pre(restify.throttle({burst: 10, rate: 10, ip: true}));
 
 
 server.use(cors.actual);
@@ -52,6 +52,9 @@ wss.on('connection', ws => {
 module.exports = {
     register(resource){
         resource(server);
+    },
+    getServer(){
+        return server;
     },
     start() {
         server.listen(PORT, () => {
