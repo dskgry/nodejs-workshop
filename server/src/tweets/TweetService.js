@@ -18,6 +18,7 @@ const getTweet = async id => {
 
     //TODO return a single tweet by it's tweetId
     //- Tip: use the array.find-function
+    return null;
 };
 
 const countTweets = async () => {
@@ -30,6 +31,7 @@ const createTweet = async tweet => {
     //- add the tweet to the database (TIP: use array.push)
     //- set the id of a tweet BEFORE adding it
     //- return the created tweet
+    return null;
 };
 
 

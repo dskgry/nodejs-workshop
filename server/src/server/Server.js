@@ -9,6 +9,8 @@ restify.CORS.ALLOW_HEADERS.push('authorization');
 const server = restify.createServer();
 
 server.use(restify.CORS());
+//TODO add queryParser middleware
+
 
 module.exports = {
     start() {
