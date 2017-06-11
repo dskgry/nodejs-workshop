@@ -6,6 +6,8 @@ const restify = require('restify');
 
 const server = restify.createServer();
 
+//TODO
+//- use the cors-middleware to enable cors
 
 module.exports = {
     start() {
