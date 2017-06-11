@@ -3,6 +3,9 @@
  */
 
 const restify = require('restify');
+restify.CORS.ALLOW_HEADERS.push('authorization');
+
+
 
 const server = restify.createServer();
 
