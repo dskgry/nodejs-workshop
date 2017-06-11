@@ -3,7 +3,7 @@
  */
 
 const jwt = require('jsonwebtoken');
-const config = require('../config/config');
+const config = require('../config/Config');
 
 // eslint-disable-next-line
 const authenticateJWT = (req, authKey) => {

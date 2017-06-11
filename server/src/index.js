@@ -2,7 +2,7 @@
  * @author Sven Koelpin
  */
 
-const dataBase = require('./db/DataBase');
+const dataBase = require('./db/Database');
 const logger = require('./server/Logger');
 const server = require('./server/Server');
 

@@ -3,11 +3,9 @@
  */
 
 const r = require('rethinkdb');
-const dataBase = require('../db/DataBase');
-const testData = require('../config/testdata');
+const dataBase = require('../db/Database');
+const fakeDataBase = require('../db/FakeDatabase');
 const eventEmitter = require('../server/Events');
-
-const ALL_TWEETS = [...testData];
 
 
 const getTweets = async (start, size) => {
@@ -18,7 +16,7 @@ const getTweets = async (start, size) => {
     }
 
     //fallback: db is not running
-    const sortedTweets = [...ALL_TWEETS].sort((a, b) => a.id < b.id);
+    const sortedTweets = [...fakeDataBase.getTweetsTable()].sort((a, b) => a.id < b.id);
     return sortedTweets.slice(start, start + size);
 };
 
@@ -29,7 +27,7 @@ const countTweets = async () => {
     }
 
     //fallback: db is not running
-    return ALL_TWEETS.length;
+    return fakeDataBase.getTweetsTable().length;
 };
 
 const createTweet = async tweet => {
@@ -40,8 +38,8 @@ const createTweet = async tweet => {
     }
 
     //fallback: db is not running
-    const newTweet = Object.assign({}, tweet, {id: ALL_TWEETS.length + 1});
-    ALL_TWEETS.push(newTweet);
+    const newTweet = Object.assign({}, tweet, {id: fakeDataBase.getTweetsTable().length + 1});
+    fakeDataBase.getTweetsTable().push(newTweet);
     eventEmitter.emit('newData', newTweet);
     return newTweet;
 };

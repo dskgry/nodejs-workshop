@@ -1,9 +1,4 @@
-/**
- * @author Sven Koelpin
- */
-
-
-module.exports = [
+const IN_MEMORY_DATA = [
     {
         id: 1,
         user: '@realDonaldTrump',
@@ -23,3 +18,10 @@ module.exports = [
         'Iraq. Dumb leaders'
     }
 ];
+
+
+module.exports = {
+    getTweetsTable() {
+        return IN_MEMORY_DATA;
+    }
+};

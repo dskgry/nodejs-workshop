@@ -7,7 +7,9 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src",
-    "start": "nodemon ./src/index.js"
+    "start": "nodemon ./src/index.js",
+    "test": "jest",
+    "test-coverage": "jest --coverage"
   },
   "dependencies": {
     "bunyan": "^1.8.8",
@@ -23,6 +25,12 @@
     "eslint": "^3.17.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.3.0",
+    "jest": "^20.0.4",
     "nodemon": "^1.11.0"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/test/**/*Test.js"
+    ]
   }
 }

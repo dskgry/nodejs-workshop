@@ -3,7 +3,7 @@
  */
 
 const bunyan = require('bunyan');
-const config = require('../config/config');
+const config = require('../config/Config');
 
 
 const streams = [{

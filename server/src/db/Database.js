@@ -3,8 +3,8 @@
  */
 const rethink = require('rethinkdb');
 const logger = require('../server/Logger');
-const config = require('../config/config');
-const testData = require('../config/testdata');
+const config = require('../config/Config');
+const testData = require('./FakeDatabase');
 const eventEmitter = require('../server/Events');
 
 const TWEETS_TABLE = 'tweets';
@@ -28,7 +28,7 @@ const createTables = async () => {
 
         await rethink.db(config.dbName).tableCreate(TWEETS_TABLE).run(connection);
         await rethink.table(TWEETS_TABLE).wait().run(connection);
-        await rethink.table(TWEETS_TABLE).insert(testData.map(tweet => {
+        await rethink.table(TWEETS_TABLE).insert(testData.getTweetsTable().map(tweet => {
             const dbTweet = Object.assign({}, tweet);
             delete dbTweet.id;
             return dbTweet;
