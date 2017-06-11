@@ -1,11 +1,11 @@
 /**
  * @author Sven Koelpin
  */
-
-//TODO
-//- require FakeDataBase
+const fakeDatabase = require('../db/FakeDatabase');
 
 module.exports = server => {
-    //TODO:
-    // - implement a get method that returns all tweets (use the fakeDatabase). Path is "tweets"
+    server.get('tweets', (req, res, next) => {
+        res.send(fakeDatabase.getTweetsTable());
+        next();
+    });
 };

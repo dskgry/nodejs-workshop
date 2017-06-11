@@ -6,11 +6,9 @@ const restify = require('restify');
 restify.CORS.ALLOW_HEADERS.push('authorization');
 
 
-
 const server = restify.createServer();
 
-//TODO
-//- use the cors-middleware to enable cors
+server.use(restify.CORS());
 
 module.exports = {
     start() {
