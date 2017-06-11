@@ -2,7 +2,6 @@
  * @author Sven Koelpin
  */
 
-jest.mock('../src/db/Database');
 jest.mock('../src/db/FakeDatabase');
 
 const fakeDatabase = require('../src/db/FakeDatabase');
@@ -42,6 +41,10 @@ describe('Tweetservice', () => {
             user: '@test',
             id: 3
         });
+        const count = await tweet.countTweets();
+        expect(count).toBe(3);
     });
+
+    //TODO: Create a test that checks if the tweetService.getTweet works correctly
 
 });

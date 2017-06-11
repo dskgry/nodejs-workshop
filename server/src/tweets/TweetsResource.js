@@ -1,11 +1,12 @@
 /**
  * @author Sven Koelpin
  */
-const fakeDatabase = require('../db/FakeDatabase');
+//TODO require tweetService
 
 module.exports = server => {
     server.get('tweets', (req, res, next) => {
-        res.send(fakeDatabase.getTweetsTable());
+        const allTweets = []; //TODO use tweetservice
+        res.send(allTweets);
         next();
     });
 };
