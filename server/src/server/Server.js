@@ -29,7 +29,7 @@ const cors = corsMiddleware({
 });
 server.pre(cors.preflight);
 server.pre(restify.throttle({burst: 10, rate: 10, ip: true}));
-
+server.pre(restify.pre.sanitizePath());
 
 server.use(cors.actual);
 server.use(restify.acceptParser(['application/json', 'text/event-stream']));

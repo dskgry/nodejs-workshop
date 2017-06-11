@@ -23,6 +23,17 @@ const receiveTweets = async (req, res, next) => {
     next();
 };
 
+
+const receiveTweet = async (req, res, next) => {
+    const tweet = await tweetService.getTweet(req.params.id);
+    if (tweet) {
+        res.send(200, tweet);
+    } else {
+        res.send(404);
+    }
+    next();
+};
+
 const createTweet = async (req, res, next) => {
     const newTweet = await tweetService.createTweet(req.body);
 
@@ -58,6 +69,11 @@ module.exports = server => {
         }),
         httpHelper.createEntityTag(() => tweetService.countTweets()),
         receiveTweets
+    );
+
+    server.get(
+        `${RESOURCE_PATH}/:id`,
+        receiveTweet
     );
 
     server.post(

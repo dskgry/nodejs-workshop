@@ -20,6 +20,16 @@ const getTweets = async (start, size) => {
     return sortedTweets.slice(start, start + size);
 };
 
+const getTweet = async id => {
+    const connection = dataBase.getConnection();
+    if (connection) {
+        return r.table(dataBase.getTweetsTable()).get(id).run(connection);
+    }
+
+    //fallback: db is not running
+    return fakeDataBase.getTweetsTable().find(tweet => tweet.id === parseInt(id, 10));
+};
+
 const countTweets = async () => {
     const connection = dataBase.getConnection();
     if (connection) {
@@ -55,6 +65,7 @@ const removeStreamListener = callback => {
 
 module.exports = {
     getTweets,
+    getTweet,
     countTweets,
     createTweet,
     addStreamListener,

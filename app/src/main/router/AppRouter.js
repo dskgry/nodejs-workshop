@@ -23,7 +23,7 @@ export default () => (
     <BrowserRouter>
         <Switch>
             <Route path={ROUTES.AUTH} component={AuthView}/>
-            <Route path={ROUTES.HOME} component={TweetView} isPrivate/>
+            <Route path={ROUTES.HOME} component={TweetView} isPrivate exact/>
         </Switch>
     </BrowserRouter>
 );
