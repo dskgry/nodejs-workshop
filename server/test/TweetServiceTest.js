@@ -46,6 +46,17 @@ describe('Tweetservice', () => {
         expect(count).toBe(3);
     });
 
-    //TODO: Create a test that checks if the tweetService.getTweet works correctly
+    it('can receive a single tweet', () => {
+        const tweet = tweetService.getTweet(1);
+        expect(tweet).toEqual({
+            tweet: 'test',
+            user: '@test',
+            id: 1
+        });
+
+        const notExisting = tweetService.getTweet(100);
+        expect(notExisting).not.toBeDefined();
+    });
+
 
 });
