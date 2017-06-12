@@ -2,29 +2,32 @@
  * @author Sven Koelpin
  */
 
+const r = require('rethinkdb');
+const dataBase = require('../db/Database');
 
-const fakeDataBase = require('../db/FakeDatabase');
-const eventEmitter = require('../server/Events');
+const TABLE_NAME = dataBase.getTweetsTable();
 
-const getTweets = (start, size) => {
-    const allTweets = fakeDataBase.getTweetsTable().sort((a, b) => a.id < b.id);
-    return allTweets.slice(start, start + size);
+
+const getTweets = async (start, size) => {
+    const connection = dataBase.getConnection();
+    const dbResult = await r.table(TABLE_NAME).orderBy(r.desc('createdAt')).slice(start, start + size).run(connection);
+    return dbResult.toArray();
 };
 
 const getTweet = id => {
-    const tweetId = parseInt(id, 10);
-    return fakeDataBase.getTweetsTable().find(tweet => tweet.id === tweetId);
+    //TODO implement me
+    return null;
 };
 
 const countTweets = () => {
-    return fakeDataBase.getTweetsTable().length;
+    //TODO implement me
+    return null;
 };
 
-const createTweet = tweet => {
-    const newTweet = Object.assign(tweet, {id: fakeDataBase.getTweetsTable().length + 1});
-    fakeDataBase.getTweetsTable().push(newTweet);
-    eventEmitter.emit('newData', newTweet);
-    return newTweet;
+const createTweet = async tweet => {
+    const connection = dataBase.getConnection();
+    const result = await r.table(TABLE_NAME).insert(Object.assign(tweet, {createdAt: new Date().getTime()})).run(connection);
+    return r.table(TABLE_NAME).get(result.generated_keys[0]).run(connection);
 };
 
 
