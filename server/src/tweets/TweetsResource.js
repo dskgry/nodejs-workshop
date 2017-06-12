@@ -13,8 +13,7 @@ module.exports = server => {
             size: yup.number().min(1).max(100).default(10)
         }),
         (req, res, next) => {
-            const page = req.params.page ? parseInt(req.params.page, 10) : 1;
-            const size = req.params.size ? parseInt(req.params.size, 10) : 10;
+            const {page, size} = req.params;
             const start = (page - 1) * size;
             const allTweets = tweetService.getTweets(start, size);
             res.send(allTweets);
@@ -47,5 +46,5 @@ module.exports = server => {
             next();
         }
     );
-    
+
 };
