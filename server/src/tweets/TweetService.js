@@ -8,7 +8,7 @@ const fakeDataBase = require('../db/FakeDatabase');
 
 const getTweets = (start, size) => {
     //TODO: Return all tweets (use the fakeDataBase)
-    //- sorted by id (Hint: use the array.sort-function, e.g. [1,2,3].sort((a,b)=>a<b))
+    //- sorted by id (desc) (Hint: use the array.sort-function, e.g. [1,2,3].sort((a,b)=>a<b))
     //- use the given start + size parameters to create a sub-array (Hint: use the array.slice-function)
     return [];
 };
