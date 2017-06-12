@@ -10,6 +10,7 @@ const server = restify.createServer();
 
 server.use(restify.CORS());
 server.use(restify.queryParser());
+server.use(restify.bodyParser());
 //TODO add the bodyParser() middle ware
 
 
