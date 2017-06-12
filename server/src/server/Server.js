@@ -2,6 +2,7 @@
  * @author Sven Koelpin
  */
 
+//TODO require logger + security 
 const restify = require('restify');
 restify.CORS.ALLOW_HEADERS.push('authorization');
 
