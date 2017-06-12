@@ -1,10 +1,11 @@
-/**
- * @author Sven Koelpin
- */
+module.exports = (req, res, next) => {
+    if (req.method === 'OPTIONS') {
+        return next();
+    }
 
-//TODO
-// - export a middleware that checks if the Authorization-Header is present and has the value "donald-dump"
-// - use the req.header('HEADER')-Function to extract a header
-// - call next only if the "authentication" worked. Answer with 401 otherwise
-// - skip the middleware if the HTTP-METHOD (req.method) equals 'OPTIONS'
-// - add the middleware in Server.js AFTER routing (.use())
+    const authHeader = req.header('Authorization');
+    if (authHeader && authHeader === 'donald-dump') {
+        return next();
+    }
+    return res.send(401);
+};

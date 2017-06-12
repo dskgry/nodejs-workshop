@@ -2,20 +2,21 @@
  * @author Sven Koelpin
  */
 
+const logger = require('./Logger');
+const security = require('../security/Security');
 const restify = require('restify');
 restify.CORS.ALLOW_HEADERS.push('authorization');
 
 
 const server = restify.createServer();
 
-//TODO add logger middleware
+server.pre(logger);
 
 server.use(restify.CORS());
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
-//TODO add security middleware
-
+server.use(security);
 
 module.exports = {
     start() {
