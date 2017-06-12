@@ -9,11 +9,12 @@ const server = require('./server/Server');
 server.register(tweetResource);
 
 
-//TODO:
-// - start the server AFTER database.init was successful (Hint: database.init is a promise)
-// - kill the process if no database is present (use process.exit())
+dataBase.init().then(() => server.start()).catch(e => {
+    console.log('DB not running');
+    process.exit();
+});
 
-server.start();
+
 
 
 

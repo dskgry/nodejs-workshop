@@ -15,13 +15,13 @@ const getTweets = async (start, size) => {
 };
 
 const getTweet = id => {
-    //TODO implement me
-    return null;
+    const connection = dataBase.getConnection();
+    return r.table(TABLE_NAME).get(id).run(connection);
 };
 
 const countTweets = () => {
-    //TODO implement me
-    return null;
+    const connection = dataBase.getConnection();
+    return r.table(TABLE_NAME).count().run(connection);
 };
 
 const createTweet = async tweet => {
