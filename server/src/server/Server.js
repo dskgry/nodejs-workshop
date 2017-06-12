@@ -8,10 +8,13 @@ restify.CORS.ALLOW_HEADERS.push('authorization');
 
 const server = restify.createServer();
 
+//TODO add logger middleware
+
 server.use(restify.CORS());
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
-//TODO add the bodyParser() middle ware
+
+//TODO add security middleware
 
 
 module.exports = {
