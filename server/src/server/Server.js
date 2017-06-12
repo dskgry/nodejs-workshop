@@ -23,10 +23,12 @@ server.use(security);
 
 //socket
 const wss = new webSocket.Server({server});
-//TODO
-// - listen to 'connection' - event
-// - listen to eventEmitters 'newData' event (eventEmitters.addListener('event',handler)) and push the data to the client
-// - remove the listener (eventEmitter.removeListener('event', handler)) when a client disconnects ('close'-event)
+
+wss.on('connection', ws => {
+    const onEventListener = newData => ws.send(JSON.stringify(newData));
+    eventEmitter.addListener('newData', onEventListener);
+    ws.on('close', () => eventEmitter.removeListener('newData', onEventListener));
+});
 
 
 module.exports = {

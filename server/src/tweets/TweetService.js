@@ -4,7 +4,7 @@
 
 
 const fakeDataBase = require('../db/FakeDatabase');
-//TODO require eventEmitter
+const eventEmitter = require('../server/Events');
 
 const getTweets = (start, size) => {
     const allTweets = fakeDataBase.getTweetsTable().sort((a, b) => a.id < b.id);
@@ -23,7 +23,7 @@ const countTweets = () => {
 const createTweet = tweet => {
     const newTweet = Object.assign(tweet, {id: fakeDataBase.getTweetsTable().length + 1});
     fakeDataBase.getTweetsTable().push(newTweet);
-    //TODO emit event 'newData' with the newTweet as payload
+    eventEmitter.emit('newData', newTweet);
     return newTweet;
 };
 
