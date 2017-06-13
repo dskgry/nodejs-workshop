@@ -17,7 +17,6 @@ server.pre(logger);
 server.pre(restify.pre.sanitizePath());
 //TODO use throttle-plugin (burst:2, rate:2, ip:true)
 
-server.pre(restify.throttle({burst: 2, rate: 2, ip: true}));
 server.use(restify.CORS());
 server.use(restify.queryParser());
 server.use(restify.bodyParser());

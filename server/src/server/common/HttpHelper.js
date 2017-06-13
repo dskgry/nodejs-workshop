@@ -27,11 +27,10 @@ const createLinkHeaderString = ({req, page, size, max}) => {
 /**
  * Creates a string that can be used as a location header.
  * @param req  The HTTP-request
- * @param res  The HTTP-response
  * @param id   The id of an entity
  * @returns the location-string
  */
-const createLocationHeaderString = ({req, res, id}) => `http://${req.header('host')}${req.path()}/${id}`;
+const createLocationHeaderString = ({req, id}) => `http://${req.header('host')}${req.path()}/${id}`;
 
 module.exports = {
     createLinkHeaderString,
