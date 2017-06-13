@@ -13,6 +13,7 @@ restify.CORS.ALLOW_HEADERS.push('authorization');
 const server = restify.createServer();
 
 server.pre(logger);
+server.pre(restify.pre.sanitizePath());
 
 server.use(restify.CORS());
 server.use(restify.queryParser());

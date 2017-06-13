@@ -39,8 +39,7 @@ module.exports = server => {
     server.get('tweets/:id',
         //TODO: Convert to async method and await result before sending it
         async (req, res, next) => {
-            const tweetId = parseInt(req.params.id, 10);
-            const tweet = tweetService.getTweet(tweetId);  //this is a promise now
+            const tweet = tweetService.getTweet(req.params.id);  //this is a promise now
             if (tweet) {
                 res.send(tweet);
             } else {
