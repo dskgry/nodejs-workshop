@@ -10,13 +10,19 @@ const eventEmitter = require('./Events');
 restify.CORS.ALLOW_HEADERS.push('authorization');
 
 
+//TODO give our api a name and a version
 const server = restify.createServer();
 
 server.pre(logger);
+server.pre(restify.pre.sanitizePath());
+//TODO use throttle-plugin (burst:2, rate:2, ip:true)
 
+server.pre(restify.throttle({burst: 2, rate: 2, ip: true}));
 server.use(restify.CORS());
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
+
+//TODO use gzip plugin
 
 server.use(security);
 
