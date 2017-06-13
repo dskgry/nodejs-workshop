@@ -10,13 +10,21 @@ const eventEmitter = require('./Events');
 restify.CORS.ALLOW_HEADERS.push('authorization');
 
 
-const server = restify.createServer();
+const server = restify.createServer({
+    name: 'Twttr',
+    version: '1.0.0'
+});
 
 server.pre(logger);
+server.pre(restify.pre.sanitizePath());
 
+
+server.pre(restify.throttle({burst: 2, rate: 2, ip: true}));
 server.use(restify.CORS());
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
+
+server.use(restify.gzipResponse());
 
 server.use(security);
 
