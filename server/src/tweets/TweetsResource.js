@@ -5,43 +5,11 @@
 const RESOURCE_PATH = 'tweets';
 const STREAM_PATH = 'stream';
 
+const restify = require('restify');
 const yup = require('yup');
 const validation = require('../server/common/Validation');
 const httpHelper = require('../server/common/HttpHelper');
 const tweetService = require('./TweetService');
-
-
-const receiveTweets = async (req, res, next) => {
-    const {page, size} = req.params;
-    const start = (page - 1) * size;
-
-    const [count, allTweets] = await Promise.all([tweetService.countTweets(), tweetService.getTweets(start, size)]);
-
-    httpHelper.addPagination({req, res, page, size, max: count});
-    res.send(200, allTweets);
-
-    next();
-};
-
-
-const receiveTweet = async (req, res, next) => {
-    const tweet = await tweetService.getTweet(req.params.id);
-    if (tweet) {
-        res.send(200, tweet);
-    } else {
-        res.send(404);
-    }
-    next();
-};
-
-const createTweet = async (req, res, next) => {
-    const newTweet = await tweetService.createTweet(req.body);
-
-    httpHelper.addLocationHeader({req, res, id: newTweet.id});
-    res.send(201, newTweet);
-
-    next();
-};
 
 
 const streamTweets = (req, res) => {
@@ -61,33 +29,62 @@ const streamTweets = (req, res) => {
 };
 
 module.exports = server => {
-    server.get(
-        RESOURCE_PATH,
+    server.get(RESOURCE_PATH,
         validation.validateQueryParams({
             page: yup.number().min(1).max(10).default(1),
             size: yup.number().min(1).max(100).default(10)
         }),
-        httpHelper.createEntityTag(() => tweetService.countTweets()),
-        receiveTweets
+        async (req, res, next) => {
+            const {page, size} = req.params;
+            const start = (page - 1) * size;
+            const [count, allTweets] = await Promise.all([tweetService.countTweets(), tweetService.getTweets(start, size)]);
+
+            const nextLink = httpHelper.createLinkHeaderString({req, page, size, max: count});
+            if (nextLink) {
+                res.header('Link', nextLink);
+            }
+
+            res.send(allTweets);
+            next();
+        }
     );
 
-    server.get(
-        `${RESOURCE_PATH}/:id`,
-        receiveTweet
-    );
-
-    server.post(
-        RESOURCE_PATH,
+    server.post(RESOURCE_PATH,
         validation.validatePostBody({
-            user: yup.string().min(3).max(50).required(),
-            tweet: yup.string().min(3).max(100).required()
+            tweet: yup.string().min(3).max(100).required(),
+            user: yup.string().min(3).max(50).required()
         }),
-        createTweet
+        async (req, res, next) => {
+            const tweet = await tweetService.createTweet(req.body);
+            const locationHeader = httpHelper.createLocationHeaderString({req, id: tweet.id});
+            res.header('Location', locationHeader);
+            res.send(201, tweet);
+            next();
+        }
+    );
+
+    server.get(`${RESOURCE_PATH}/:id`,
+        async (req, res, next) => {
+            const tweet = await tweetService.getTweet(req.params.id);
+            if (tweet) {
+                res.tweet = tweet;
+            }
+            res.setHeader('ETag', httpHelper.md5(JSON.stringify(tweet)));
+            next();
+        },
+        restify.conditionalRequest(),
+        (req, res, next) => {
+            if (res.tweet) {
+                res.send(res.tweet);
+            } else {
+                res.send(404);
+            }
+            next();
+        }
     );
 
 
-    server.get(
-        `${RESOURCE_PATH}/${STREAM_PATH}`,
+    server.get(`${RESOURCE_PATH}/${STREAM_PATH}`,
         streamTweets
     );
 };

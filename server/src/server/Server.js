@@ -2,10 +2,8 @@
  * @author Sven Koelpin
  */
 const restify = require('restify');
-const corsMiddleware = require('restify-cors-middleware');
 const webSocket = require('ws');
 const eventEmitter = require('../server/Events');
-const config = require('../config/Config');
 const logger = require('./Logger');
 const security = require('../security/Security');
 
@@ -23,15 +21,12 @@ server.on('uncaughtException', (req, res, route, err) => {
 });
 
 //middlewares
-const cors = corsMiddleware({
-    origins: config.origins,
-    allowHeaders: ['Authorization']
-});
-server.pre(cors.preflight);
 server.pre(restify.throttle({burst: 10, rate: 10, ip: true}));
 server.pre(restify.pre.sanitizePath());
 
-server.use(cors.actual);
+server.use(restify.CORS());
+restify.CORS.ALLOW_HEADERS.push('authorization');
+
 server.use(restify.acceptParser(['application/json', 'text/event-stream']));
 server.use(restify.requestLogger());
 server.use(restify.gzipResponse());
