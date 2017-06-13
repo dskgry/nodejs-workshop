@@ -37,7 +37,7 @@ module.exports = server => {
         }),
         async (req, res, next) => {
             const tweet = await tweetService.createTweet(req.body);
-            const locationHeader = httpHelper.createLocationHeaderString({req, res, id: tweet.id});
+            const locationHeader = httpHelper.createLocationHeaderString({req, id: tweet.id});
             res.header('Location', locationHeader);
             res.send(201, tweet);
             next();
