@@ -22,27 +22,26 @@ module.exports = server => {
             let i = 0;
 
             while (i < veryBigNumber) {
-             i++;
-             }
-             res.send({timesDonaldTweetedToday: 5000});
-             next();
+                i++;
+            }
+            res.send({timesDonaldTweetedToday: 5000});
+            next();
 
-           /* const increase = () => {
-                //do some calc
-                let chunk = 0;
-                while (chunk < 1000000) {
-                    i++;
-                    chunk++;
-                }
-                if (i === veryBigNumber) {
-                    res.send({timesDonaldTweetedToday: i});
-                    return next();
-                }
-                console.log(i);
-                //process.nextTick(increase); would now allow IO
-                setImmediate(increase);
-            };
-            increase();*/
+            /* const increase = () => {
+             //do some calc
+             let chunk = 0;
+             while (chunk < 1000000) {
+             i++;
+             chunk++;
+             }
+             if (i === veryBigNumber) {
+             res.send({timesDonaldTweetedToday: i});
+             return next();
+             }
+             console.log(i);
+             setImmediate(increase);
+             };
+             increase();*/
 
         }
     );
