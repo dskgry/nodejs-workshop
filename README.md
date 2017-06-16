@@ -1,4 +1,4 @@
-# clarissa
+# api-summit-2017-nodejs-workshop
 Example realtime React + Node Twttr app
 
 server:
