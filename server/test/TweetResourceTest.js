@@ -26,14 +26,14 @@ describe('TweetResource', () => {
     it('a GET-request to path /tweets returns status 401 when not Authorization-Header is present', async done => {
         //Hint: Access the status via response.status
         const response = await null;
-        expect(reponse).not.toBeNull();
+        expect(response).not.toBeNull();
         done();
     });
 
     it('a GET-request to path /tweets returns status 200 when Authorization-Header is present', async done => {
         //Hint: headers can be set with get('..').set({HEADERKEY:'value'})
         const response = await null;
-        expect(reponse).not.toBeNull();
+        expect(response).not.toBeNull();
         done();
     });
 
@@ -51,7 +51,7 @@ describe('TweetResource', () => {
     it('a POST-request to path /tweets with a valid tweet as payload returns status 201', async done => {
         //Hint: use  post('').send(PAYLOAD).set(HEADER)...
         const response = await null;
-        expect(reponse).not.toBeNull();
+        expect(response).not.toBeNull();
         done();
     });
 
