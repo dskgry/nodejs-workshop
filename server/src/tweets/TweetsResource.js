@@ -48,7 +48,7 @@ module.exports = server => {
         async (req, res, next) => {
             const tweet = await tweetService.getTweet(req.params.id);
             //TODO
-            // - temporarily save the tweet to request if it's not null
+            // - temporarily save the tweet to response (res.tweet = tweet) if it's not null
             // - set the etag-header (use httpHelper.md5) to create a hash of the tweet
             if (tweet) {
                 res.send(tweet);
@@ -57,9 +57,12 @@ module.exports = server => {
             }
             next();
         },
-        //TODO add conditional-request middleware + another request handler
-        // - 1. restify conditional request
-        // - 2. request handler that sends the tweet or 404 if no tweet is present
+        restify.conditionalRequest(),
+        (req, res, next) => {
+            //TODO add conditional-request middleware + another request handler
+            // - send tweet if present is res-object, send 404 otherwise
+            next();
+        }
     );
 
 };
