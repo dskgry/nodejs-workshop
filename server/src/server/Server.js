@@ -3,14 +3,22 @@
  */
 
 const restify = require('restify');
-restify.CORS.ALLOW_HEADERS.push('authorization');
+const corsMiddleware = require('restify-cors-middleware');
+
+const cors = corsMiddleware({
+    origins: ['http://localhost:3000'],
+    allowHeaders: ['authorization']
+});
 
 
 const server = restify.createServer();
 
-server.use(restify.CORS());
-server.use(restify.queryParser());
-//TODO add the bodyParser() middle ware
+//middlewares pre
+server.pre(cors.preflight);
+//middlewares use plugins
+server.use(cors.actual);
+server.use(restify.plugins.queryParser());
+//TODO add the bodyParser() middleware
 
 
 module.exports = {

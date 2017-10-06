@@ -15,8 +15,8 @@ module.exports = server => {
     //   - size (number, min 1, max 100, default 10
     server.get('tweets', (req, res, next) => {
         //TODO parsing + default param handlung can be removed when validation is added
-        const page = req.params.page ? parseInt(req.params.page, 10) : 1;
-        const size = req.params.size ? parseInt(req.params.size, 10) : 10;
+        const page = req.query.page ? parseInt(req.query.page, 10) : 1;
+        const size = req.query.size ? parseInt(req.query.size, 10) : 10;
         const start = (page - 1) * size;
         const allTweets = tweetService.getTweets(start, size);
         res.send(allTweets);
