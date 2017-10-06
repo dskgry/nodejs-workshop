@@ -19,7 +19,9 @@ module.exports = {
         "react/jsx-indent": 0,
         "react/jsx-tag-spacing": 0,
         "react/jsx-indent-props": 0,
-        "jsx-quotes": 0
+        "jsx-quotes": 0,
+        "spaced-comment": 0,
+        "jsx-a11y/href-no-hash": 0
     },
     "globals": {
         "window": true,
