@@ -16,7 +16,7 @@ module.exports = server => {
             size: yup.number().min(1).max(100).default(10)
         }),
         async (req, res, next) => {
-            const {page, size} = req.params;
+            const {page, size} = req.query;
             const start = (page - 1) * size;
             const [count, allTweets] = await Promise.all([tweetService.countTweets(), tweetService.getTweets(start, size)]);
 
@@ -54,7 +54,7 @@ module.exports = server => {
             res.setHeader('ETag', httpHelper.md5(JSON.stringify(tweet)));
             next();
         },
-        restify.conditionalRequest(),
+        restify.plugins.conditionalRequest(),
         (req, res, next) => {
             if (res.tweet) {
                 res.send(res.tweet);

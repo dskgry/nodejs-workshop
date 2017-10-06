@@ -1,14 +1,17 @@
 /**
  * @author Sven Koelpin
  */
-
 const restify = require('restify');
 const webSocket = require('ws');
+const eventEmitter = require('../server/Events');
 const logger = require('./Logger');
 const security = require('../security/Security');
-const eventEmitter = require('./Events');
-restify.CORS.ALLOW_HEADERS.push('authorization');
+const corsMiddleware = require('restify-cors-middleware');
 
+const cors = corsMiddleware({
+    origins: ['http://localhost:3000'],
+    allowHeaders: ['authorization']
+});
 
 module.exports = {
     create(){
@@ -17,16 +20,17 @@ module.exports = {
             version: '1.0.0'
         });
 
+        //middlewares pre
         server.pre(logger);
         server.pre(restify.pre.sanitizePath());
+        server.pre(cors.preflight);
+        server.pre(restify.plugins.throttle({burst: 10, rate: 10, ip: true}));
 
-
-        server.pre(restify.throttle({burst: 2, rate: 2, ip: true}));
-        server.use(restify.CORS());
-        server.use(restify.queryParser());
-        server.use(restify.bodyParser());
-
-        server.use(restify.gzipResponse());
+        //middlewares use plugins
+        server.use(cors.actual);
+        server.use(restify.plugins.queryParser());
+        server.use(restify.plugins.bodyParser());
+        server.use(restify.plugins.gzipResponse());
 
         server.use(security);
 
