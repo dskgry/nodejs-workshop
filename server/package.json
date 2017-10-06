@@ -1,10 +1,14 @@
 {
   "name": "twttr",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "awesome twttr server",
-  "repository": "https://github.com/dskgry/clarissa",
+  "repository": "https://github.com/dskgry/api-summit-2017-nodejs-workshop",
   "author": "Manuel Rauber<manuel.rauber@thinktecture.com>, dskgry <sven.koelpin@outlook.com>",
   "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=7.6"
+  },
   "scripts": {
     "lint": "eslint src",
     "start": "nodemon ./src/index.js",
@@ -12,21 +16,22 @@
     "test-coverage": "jest --coverage"
   },
   "dependencies": {
-    "bunyan": "^1.8.8",
-    "jsonwebtoken": "^7.4.1",
-    "restify": "^4.3.0",
-    "restify-cors-middleware": "0.0.8",
+    "bunyan": "^1.8.12",
+    "jsonwebtoken": "^8.0.1",
+    "restify": "^6.0.1",
+    "restify-cors-middleware": "^1.0.1",
     "rethinkdb": "^2.3.3",
-    "ws": "^3.0.0",
-    "yup": "^0.21.3"
+    "ws": "^3.2.0",
+    "yup": "^0.22.0"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
-    "eslint": "^3.17.0",
-    "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.3.0",
-    "jest": "^20.0.4",
-    "nodemon": "^1.11.0",
+    "babel-eslint": "^8.0.1 ",
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.2",
+    "eslint-plugin-import": "^2.7.0",
+    "jest": "^21.2.1",
+    "jest-cli": "^21.2.1",
+    "nodemon": "^1.12.1",
     "supertest": "^3.0.0"
   },
   "jest": {
