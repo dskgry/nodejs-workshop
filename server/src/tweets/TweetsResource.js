@@ -14,7 +14,7 @@ module.exports = server => {
         }),
         //TODO: Convert to async method and await result before sending it
         (req, res, next) => {
-            const {page, size} = req.params;
+            const {page, size} = req.query;
             const start = (page - 1) * size;
             const allTweets = tweetService.getTweets(start, size); //this is a promise now :)
             res.send(allTweets);

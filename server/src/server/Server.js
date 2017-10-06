@@ -6,18 +6,25 @@ const restify = require('restify');
 const webSocket = require('ws');
 const logger = require('./Logger');
 const security = require('../security/Security');
+const corsMiddleware = require('restify-cors-middleware');
 const eventEmitter = require('./Events');
-restify.CORS.ALLOW_HEADERS.push('authorization');
 
+
+const cors = corsMiddleware({
+    origins: ['http://localhost:3000'],
+    allowHeaders: ['authorization']
+});
 
 const server = restify.createServer();
 
-server.pre(logger);
-server.pre(restify.pre.sanitizePath());
 
-server.use(restify.CORS());
-server.use(restify.queryParser());
-server.use(restify.bodyParser());
+//middlewares pre
+server.pre(logger);
+server.pre(cors.preflight);
+//middlewares use plugins
+server.use(cors.actual);
+server.use(restify.plugins.queryParser());
+server.use(restify.plugins.bodyParser());
 
 server.use(security);
 
