@@ -23,24 +23,7 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            [
-                                "env",
-                                {
-                                    targets: {
-                                        browsers: ["last 2 versions"]
-                                    },
-                                    modules: false,
-                                    useBuiltIns: true
-                                }
-                            ],
-                            'react'
-                        ]
-                    }
-                }],
+                use: [{loader: 'babel-loader'}]
             },
             {
                 test: /\.(less|css)$/,
@@ -68,12 +51,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('development')
-            },
-            __DEVELOPMENT__: JSON.stringify(true)
-        }),
+        new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('development')}}),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             minChunks: Infinity,
