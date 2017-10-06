@@ -3,33 +3,32 @@
  */
 const yup = require('yup');
 
-
-const validate = async ({what, options, req, res, next, isPostBody}) => {
-    const validator = yup.object().shape(options);
-
+const validate = async ({shape, what, req, res, next}) => {
     try {
-        const validated = await validator.validate(what, {stripUnknown: isPostBody, abortEarly: false});
-        if (isPostBody) {
-            req.body = validated;
-        } else {
-            req.params = validated;
-        }
+        const toValidate = req[what];
+        const validated = await yup.object().shape(shape).validate(toValidate, {stripUnknown: true, abortEarly: false});
+
+        Object.assign(req, {
+            [what]: validated,
+            [`orig${what}`]: toValidate,
+        });
+
         next();
-    } catch (e) {
-        const errors = {};
-        e.inner.forEach(error => errors[error.path] = error.errors[0]);
-        res.send(400, errors);
+    } catch (validationErrors) {
+        const allErrors = validationErrors.inner.reduce((errors, currentValidation) => Object.assign(errors, {
+            [currentValidation.path]: currentValidation.errors[0], //first error is enough for this demo
+        }), {});
+        res.send(400, allErrors);
     }
 };
 
-const validateQueryParams = options => (req, res, next) => {
-    const paramsToValidate = req.params;
-    validate({what: paramsToValidate, options, req, res, next, isPostBody: false});
+
+const validateQueryParams = shape => (req, res, next) => {
+    validate({what: 'query', shape, req, res, next});
 };
 
-const validatePostBody = options => (req, res, next) => {
-    const bodyToValidate = req.body;
-    validate({what: bodyToValidate, options, req, res, next, isPostBody: true});
+const validatePostBody = shape => (req, res, next) => {
+    validate({what: 'body', shape, req, res, next});
 };
 
 module.exports = {validatePostBody, validateQueryParams};
