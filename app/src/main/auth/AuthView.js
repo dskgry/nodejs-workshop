@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import Navigation from '../nav/Navigation';
 import Loading from '../component/Loading';
+import style from './authView.less';
 
 import { signIn } from './Auth';
 import { ROUTES } from '../router/AppRouter';
@@ -27,19 +28,20 @@ class AuthView extends PureComponent {
         this.state = {
             userName: '',
             pass: '',
-            loading: false
+            loading: false,
+            loginError: false
         };
     }
 
     async onLogin(event) {
         event.preventDefault();
-        this.setState({loading: true});
+        this.setState({loading: true, loginError: false});
 
         try {
             await signIn(this.state);
             this.props.history.push(ROUTES.HOME);
         } catch (e) {
-            this.setState({loading: false});
+            this.setState({loading: false, loginError: true});
         }
     }
 
@@ -49,7 +51,7 @@ class AuthView extends PureComponent {
 
 
     render() {
-        const {userName, pass, loading} = this.state;
+        const {userName, pass, loading, loginError} = this.state;
 
         return (
             <Container>
@@ -59,13 +61,16 @@ class AuthView extends PureComponent {
                         {loading && <Loading cover/>}
                         <Form onSubmit={this.onLogin}>
                             <FormGroup>
-                                <Label>Your name</Label>
-                                <Input name="userName" value={userName} onChange={this.handleFormChange} type="text"/>
+                                <Label>Your name (min. 3 characters)</Label>
+                                <Input name="userName" value={userName} onChange={this.handleFormChange} required pattern=".{3,50}" type="text"/>
                             </FormGroup>
                             <FormGroup>
                                 <Label>Your pass</Label>
-                                <Input name="pass" value={pass} onChange={this.handleFormChange} type="password"/>
+                                <Input name="pass" value={pass} onChange={this.handleFormChange} required pattern=".{6,50}" type="password"/>
                             </FormGroup>
+                            {
+                                loginError && <div className={style.err}>Ups that did not work. The password is 'summit' :)</div>
+                            }
                             <Button disabled={loading} color="primary">Let&apos;s go</Button>
                         </Form>
                     </Col>
@@ -73,7 +78,6 @@ class AuthView extends PureComponent {
             </Container>
         );
     }
-
 }
 
 export default withRouter(AuthView);

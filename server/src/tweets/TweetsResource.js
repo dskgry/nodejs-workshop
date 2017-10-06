@@ -3,7 +3,7 @@
  */
 
 //TODO
-//- require FakeDataBase
+//- require FakeDataBase (located in folder db)
 
 module.exports = server => {
     //TODO:

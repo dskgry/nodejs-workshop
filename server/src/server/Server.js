@@ -3,8 +3,12 @@
  */
 
 const restify = require('restify');
-restify.CORS.ALLOW_HEADERS.push('authorization');
+const corsMiddleware = require('restify-cors-middleware');
 
+const cors = corsMiddleware({
+    origins: ['http://localhost:3000'],
+    allowHeaders: ['authorization']
+});
 
 
 const server = restify.createServer();
