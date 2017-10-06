@@ -3,9 +3,10 @@
  */
 import React, { PureComponent } from 'react';
 import { func, bool, string } from 'prop-types';
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
 import style from './tweetForm.less';
 
+const MIN_TWEET_LENGTH = 3;
 const MAX_TWEET_LENGTH = 100;
 
 export default class TweetForm extends PureComponent {
@@ -53,6 +54,8 @@ export default class TweetForm extends PureComponent {
                     <Input
                         value={tweet}
                         disabled={loading}
+                        required
+                        pattern={`.{${MIN_TWEET_LENGTH},${MAX_TWEET_LENGTH}}`}
                         max={MAX_TWEET_LENGTH}
                         onChange={this.onChangeTweet}
                         type="text"
@@ -62,7 +65,7 @@ export default class TweetForm extends PureComponent {
 
                     <span>{tweet.length}/{MAX_TWEET_LENGTH}</span>
 
-                    <Button disabled={loading || tweet.length === 0} color="primary">Let&apos;s do this</Button>
+                    <Button disabled={loading || tweet.length < (MIN_TWEET_LENGTH)} color="primary">Let&apos;s do this</Button>
                 </FormGroup>
             </Form>
         );

@@ -4,16 +4,24 @@
 
 //TODO require logger + security 
 const restify = require('restify');
-restify.CORS.ALLOW_HEADERS.push('authorization');
+const corsMiddleware = require('restify-cors-middleware');
+
+const cors = corsMiddleware({
+    origins: ['http://localhost:3000'],
+    allowHeaders: ['authorization']
+});
 
 
 const server = restify.createServer();
 
-//TODO add logger middleware
 
-server.use(restify.CORS());
-server.use(restify.queryParser());
-server.use(restify.bodyParser());
+//middlewares pre
+//TODO add logger middleware
+server.pre(cors.preflight);
+//middlewares use plugins
+server.use(cors.actual);
+server.use(restify.plugins.queryParser());
+server.use(restify.plugins.bodyParser());
 
 //TODO add security middleware
 
