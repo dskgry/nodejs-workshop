@@ -5,12 +5,13 @@
 import axios from 'axios';
 
 // eslint-disable-next-line
-export const SERVER_URI = __DEVELOPMENT__ ? 'http://localhost:3001/' : '/api/';
+const SERVER_NAME = 'localhost:3001';
+const SERVER_URI = `http://${SERVER_NAME}/`;
+const WS_URI = `ws://${SERVER_NAME}/`;
 const AUTH_TOKEN = 'donald-dump';
 
 export const URLS = {
-    TWEETS: 'tweets',
-    TWEETS_STREAM: 'tweets/stream'
+    TWEETS: 'tweets'
 };
 
 let eventStream = null;
@@ -40,11 +41,8 @@ export default {
     },
     subscribeStream(onNewTweet) {
         this.unSubscribeStream();
-        eventStream = new WebSocket('ws://localhost:3001');
+        eventStream = new WebSocket(WS_URI);
         eventStream.addEventListener('message', event => onNewTweet(JSON.parse(event.data)));
-        /* if (window.EventSource) {
-         eventStream = new EventSource(`${SERVER_URI}${URLS.TWEETS_STREAM}?authorization=${AUTH_TOKEN}`);
-         }*/
     },
     unSubscribeStream() {
         if (eventStream) {

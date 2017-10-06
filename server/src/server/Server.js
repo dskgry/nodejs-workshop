@@ -6,6 +6,13 @@ const webSocket = require('ws');
 const eventEmitter = require('../server/Events');
 const logger = require('./Logger');
 const security = require('../security/Security');
+const corsMiddleware = require('restify-cors-middleware');
+
+const cors = corsMiddleware({
+    origins: ['http://localhost:3000'],
+    allowHeaders: ['authorization']
+});
+
 
 const PORT = 3001;
 
@@ -20,19 +27,19 @@ server.on('uncaughtException', (req, res, route, err) => {
     res.send(500);
 });
 
-//middlewares
-server.pre(restify.throttle({burst: 10, rate: 10, ip: true}));
+//middlewares pre
+server.pre(restify.plugins.throttle({burst: 10, rate: 10, ip: true}));
 server.pre(restify.pre.sanitizePath());
+server.pre(cors.preflight);
 
-server.use(restify.CORS());
-restify.CORS.ALLOW_HEADERS.push('authorization');
+//middlewares use plugins
+server.use(cors.actual);
+server.use(restify.plugins.requestLogger());
+server.use(restify.plugins.gzipResponse());
+server.use(restify.plugins.queryParser());
+server.use(restify.plugins.bodyParser());
 
-server.use(restify.acceptParser(['application/json', 'text/event-stream']));
-server.use(restify.requestLogger());
-server.use(restify.gzipResponse());
-server.use(restify.queryParser());
-server.use(restify.bodyParser({mapParams: false}));
-
+//middlewares use custom
 server.use(security);
 
 
@@ -45,10 +52,10 @@ wss.on('connection', ws => {
 });
 
 module.exports = {
-    register(resource){
+    register(resource) {
         resource(server);
     },
-    getServer(){
+    getServer() {
         return server;
     },
     start() {

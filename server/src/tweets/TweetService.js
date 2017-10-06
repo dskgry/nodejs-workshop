@@ -7,11 +7,12 @@ const dataBase = require('../db/Database');
 const fakeDataBase = require('../db/FakeDatabase');
 const eventEmitter = require('../server/Events');
 
+const TABLE_NAME = dataBase.getTweetsTable();
 
 const getTweets = async (start, size) => {
     const connection = dataBase.getConnection();
     if (connection) {
-        const dbResult = await r.table(dataBase.getTweetsTable()).orderBy(r.desc('createdAt')).slice(start, start + size).run(connection);
+        const dbResult = await r.table(TABLE_NAME).orderBy(r.desc('createdAt')).slice(start, start + size).run(connection);
         return dbResult.toArray();
     }
 
@@ -23,7 +24,7 @@ const getTweets = async (start, size) => {
 const getTweet = async id => {
     const connection = dataBase.getConnection();
     if (connection) {
-        return r.table(dataBase.getTweetsTable()).get(id).run(connection);
+        return r.table(TABLE_NAME).get(id).run(connection);
     }
 
     //fallback: db is not running
@@ -33,7 +34,7 @@ const getTweet = async id => {
 const countTweets = async () => {
     const connection = dataBase.getConnection();
     if (connection) {
-        return r.table(dataBase.getTweetsTable()).count().run(connection);
+        return r.table(TABLE_NAME).count().run(connection);
     }
 
     //fallback: db is not running
@@ -43,8 +44,8 @@ const countTweets = async () => {
 const createTweet = async tweet => {
     const connection = dataBase.getConnection();
     if (connection) {
-        const result = await r.table(dataBase.getTweetsTable()).insert(Object.assign({}, tweet, {createdAt: new Date().getTime()})).run(connection);
-        return r.table(dataBase.getTweetsTable()).get(result.generated_keys[0]).run(connection);
+        const result = await r.table(TABLE_NAME).insert(Object.assign(tweet, {createdAt: new Date().getTime()})).run(connection);
+        return r.table(TABLE_NAME).get(result.generated_keys[0]).run(connection);
     }
 
     //fallback: db is not running
@@ -54,20 +55,9 @@ const createTweet = async tweet => {
     return newTweet;
 };
 
-
-const addStreamListener = callback => {
-    eventEmitter.addListener('newData', callback);
-};
-
-const removeStreamListener = callback => {
-    eventEmitter.removeListener('newData', callback);
-};
-
 module.exports = {
     getTweets,
     getTweet,
     countTweets,
-    createTweet,
-    addStreamListener,
-    removeStreamListener
+    createTweet
 };
