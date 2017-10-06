@@ -14,7 +14,7 @@ app:
 * npm start (runs on 3000) //dev mode
 * npm run lint //linting
 
- Login with any user name, password must be 'summit' atm
+ Login with any user name, password must be 'summit'
  
  Features:
  * get tweets + pagination
@@ -27,6 +27,6 @@ app:
  * simple rate limiting (using restify's throttling)
  * CORS
  * API versioning
- * get single tweet ("detail mode")
+ * get single tweet
 
  

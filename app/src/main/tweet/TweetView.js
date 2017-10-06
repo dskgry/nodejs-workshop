@@ -12,7 +12,6 @@ import style from './tweetView.less';
 import { getToken } from '../auth/Auth';
 
 export default class TweetView extends PureComponent {
-
     constructor() {
         super();
         this.onAddTweet = this.onAddTweet.bind(this);
@@ -87,5 +86,4 @@ export default class TweetView extends PureComponent {
             </Container>
         );
     }
-
 }

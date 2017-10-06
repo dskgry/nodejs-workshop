@@ -16,7 +16,7 @@ module.exports = server => {
             size: yup.number().min(1).max(100).default(10)
         }),
         async (req, res, next) => {
-            const {page, size} = req.params;
+            const {page, size} = req.query;
             const start = (page - 1) * size;
             const allTweets = await tweetService.getTweets(start, size);
             //TODO add link-header here.
@@ -57,7 +57,7 @@ module.exports = server => {
             }
             next();
         },
-        restify.conditionalRequest(),
+        restify.plugins.conditionalRequest(),
         (req, res, next) => {
             //TODO add conditional-request middleware + another request handler
             // - send tweet if present is res-object, send 404 otherwise
