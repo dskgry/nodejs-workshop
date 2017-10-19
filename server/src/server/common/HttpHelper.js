@@ -3,7 +3,7 @@
  */
 const crypto = require('crypto');
 
-const md5 = what => crypto.createHash('md5').update(what, 'utf8').digest('hex');
+const md5 = what => what ? crypto.createHash('md5').update(what, 'utf8').digest('hex') : '';
 
 const createLink = (rel, link) => `<${link}>; rel="${rel}"`;
 

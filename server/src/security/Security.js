@@ -17,9 +17,6 @@ const authenticateJWT = (req, authKey) => {
 
 
 module.exports = (req, res, next) => {
-    if (req.method.toUpperCase() === 'OPTIONS') {
-        return next();
-    }
     const authToken = req.header('Authorization') ? req.header('Authorization') : req.params.authorization;
     if (authToken && authToken === 'donald-dump' /*authenticateJWT(req, authToken)*/) {
         return next();
