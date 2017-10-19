@@ -15,6 +15,7 @@ const server = restify.createServer();
 
 //TODO
 //- use the cors-middleware to enable cors
+//- check the slides or (https://www.npmjs.com/package/restify-cors-middleware) for usage info :)
 
 module.exports = {
     start() {

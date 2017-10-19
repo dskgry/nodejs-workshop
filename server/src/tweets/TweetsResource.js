@@ -7,5 +7,5 @@
 
 module.exports = server => {
     //TODO:
-    // - implement a get method that returns all tweets (use the fakeDatabase). Path is "tweets"
+    // - implement a get method (server.get(...)) that returns all tweets (use fakeDatabase#getTweetsTable()). Path of the get method should be "/tweets"
 };
