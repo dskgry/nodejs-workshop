@@ -32,4 +32,4 @@ function creatorFn(a) {
     }
 }
 console.log(creatorFn(1)(2)(3));
-//4. convert complexFn to a fat arrow function. call the function and log the result
+//4. convert creatorFn to a fat arrow function. call the function and log the result
