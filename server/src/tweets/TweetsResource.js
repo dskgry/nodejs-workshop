@@ -12,11 +12,11 @@ module.exports = server => {
             page: yup.number().min(1).max(10).default(1),
             size: yup.number().min(1).max(100).default(10)
         }),
-        //TODO: Convert to async method and await result before sending it
-        (req, res, next) => {
+        //TODO: await the result before sending it
+        async  (req, res, next) => {
             const {page, size} = req.query;
             const start = (page - 1) * size;
-            const allTweets = tweetService.getTweets(start, size); //this is a promise now :)
+            const allTweets = tweetService.getTweets(start, size); //TODO this is a promise now :)
             res.send(allTweets);
             next();
         }
@@ -29,7 +29,7 @@ module.exports = server => {
         }),
         //TODO: Convert to async method and await result before sending it
         (req, res, next) => {
-            const tweet = tweetService.createTweet(req.body); //this is a promise now
+            const tweet = tweetService.createTweet(req.body); //TODO this is a promise now :)
             res.send(201, tweet);
             next();
         }
@@ -38,8 +38,8 @@ module.exports = server => {
 
     server.get('tweets/:id',
         //TODO: Convert to async method and await result before sending it
-        async (req, res, next) => {
-            const tweet = tweetService.getTweet(req.params.id);  //this is a promise now
+         (req, res, next) => {
+            const tweet = tweetService.getTweet(req.params.id);  //TODO this is a promise now :)
             if (tweet) {
                 res.send(tweet);
             } else {
