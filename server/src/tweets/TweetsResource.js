@@ -51,7 +51,7 @@ module.exports = server => {
             if (tweet) {
                 res.tweet = tweet;
             }
-            res.setHeader('ETag', httpHelper.md5(JSON.stringify(tweet)));
+            res.header('ETag', httpHelper.md5(JSON.stringify(tweet)));
             next();
         },
         restify.plugins.conditionalRequest(),
@@ -64,5 +64,4 @@ module.exports = server => {
             next();
         }
     );
-
 };
