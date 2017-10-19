@@ -14,7 +14,8 @@ module.exports = server => {
     //   - page (number, min 1, max 10, default 1
     //   - size (number, min 1, max 100, default 10
     server.get('tweets', (req, res, next) => {
-        //TODO parsing + default param handlung can be removed when validation is added
+        //TODO
+        // parsing + default param handling can be removed after validation is added. The validation middleware will do all of that for you (just use req.query.page and req.query.size).
         const page = req.query.page ? parseInt(req.query.page, 10) : 1;
         const size = req.query.size ? parseInt(req.query.size, 10) : 10;
         const start = (page - 1) * size;
@@ -25,7 +26,7 @@ module.exports = server => {
     //TODO:
     // - Implement createTweet, which listens to HTTP-POST (path: 'tweets'). Use  TweetService#createTweet
     // - The posted tweet is saved in req.body (don't forget to add the bodyParser()-middleware in Server.js)
-    // - respond with the created tweet and the status code 201
+    // - respond with the created tweet and the status code 201 (res.send(STATUS_CODE, data)
     // - Add validation middleware (validatePostBody).
     //  - a tweet needs to have at least the properties:
     //      - tweet (string, min. 3 chars, max 100 chars, required)
