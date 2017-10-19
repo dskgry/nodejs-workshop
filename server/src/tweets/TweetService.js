@@ -4,7 +4,7 @@
 
 
 const fakeDataBase = require('../db/FakeDatabase');
-//TODO require eventEmitter
+const eventEmitter = require('../server/Events');
 
 const getTweets = (start, size) => {
     const allTweets = fakeDataBase.getTweetsTable().sort((a, b) => a.id < b.id);
