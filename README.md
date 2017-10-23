@@ -1,4 +1,4 @@
-# api-summit-2017-nodejs-workshop
+nodejs-workshop
 Example realtime React + Node Twttr app
 
 server:
@@ -16,17 +16,5 @@ app:
 
  Login with any user name, password must be 'summit'
  
- Features:
- * get tweets + pagination
- * create tweet
- * tweet streaming (using server sent events and rethink DB)
- * simple etag header for cache control
- * validation + error handling
- * location header and link header (pagination, HATEOAS)
- * logging
- * simple rate limiting (using restify's throttling)
- * CORS
- * API versioning
- * get single tweet
 
  
