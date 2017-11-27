@@ -5,6 +5,7 @@ Example realtime React + Node Twttr app
     * You can check your installed version with the command "node --version".
 * Local installation of rethinkdb (https://www.rethinkdb.com/docs/install/)
 
+# Installation:
 
 server:
 
