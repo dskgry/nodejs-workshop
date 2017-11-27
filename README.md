@@ -22,7 +22,7 @@ app:
 4. Login with any user name, password must be 'summit'
 
 
-#Slides
+# Slides
 
 Slides can be found here:
 http://bit.ly/2hU74NV
