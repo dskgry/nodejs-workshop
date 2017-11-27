@@ -2,15 +2,13 @@
  * @author Sven Koelpin
  */
 
-//TODO
-//- require Validation middleware
-//- require yup
-
+const yup = require('yup');
 const tweetService = require('./TweetService');
+const validation = require('../server/common/Validation');
 
 module.exports = server => {
     //TODO
-    // - Add validation middleware (validateQueryParams)
+    // - Add validation middleware (validation.validateQueryParams(...))
     //   - page (number, min 1, max 10, default 1
     //   - size (number, min 1, max 100, default 10
     server.get('tweets', (req, res, next) => {
@@ -27,7 +25,7 @@ module.exports = server => {
     // - Implement createTweet, which listens to HTTP-POST (path: 'tweets'). Use  TweetService#createTweet
     // - The posted tweet is saved in req.body (don't forget to add the bodyParser()-middleware in Server.js)
     // - respond with the created tweet and the status code 201 (res.send(STATUS_CODE, data)
-    // - Add validation middleware (validatePostBody).
+    // - Add validation middleware (validation.validatePostBody(...)).
     //  - a tweet needs to have at least the properties:
     //      - tweet (string, min. 3 chars, max 100 chars, required)
     //      - user (string, min. 3 chars, max 50 chars, required)
