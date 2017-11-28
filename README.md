@@ -24,8 +24,7 @@ app:
 
 # Slides
 
-Slides can be found here:
-http://bit.ly/2hU74NV
+Slides can be found here: http://bit.ly/nodejs-slides
  
 
  
