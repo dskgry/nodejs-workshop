@@ -16,7 +16,7 @@ server:
 
 
 app:
-1. go to folder "server"
+1. go to folder "app"
 2. npm install
 3. npm start (server will be running on http://localhost:3000)
 4. Login with any user name, password must be 'summit'
