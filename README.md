@@ -7,6 +7,7 @@ Example realtime React + Node Twttr app
     *  if you don't want to litter up your host system, just start a RethinkDB docker container :)
     * `docker run --name some-rethink -p 8080:8080 -p 29015:29015 -p 28015:28015 -d rethinkdb
 
+
 # Installation
 
 server:
@@ -18,7 +19,7 @@ server:
 
 
 app:
-1. go to folder "server"
+1. go to folder "app"
 2. npm install
 3. npm start (server will be running on http://localhost:3000)
 4. Login with any user name, password must be 'summit'
