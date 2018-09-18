@@ -14,16 +14,24 @@ export default getComponent => class AsyncComponent extends React.Component {
     }
 
     async componentWillMount() {
-        if (!this.state.Component) {
-            const Component = await getComponent();
-            AsyncComponent.Component = Component;
-            this.setState({Component});
+        const {
+            Component
+        } = this.state;
+
+        if (!Component) {
+            const loadedComponent = await getComponent();
+            AsyncComponent.Component = loadedComponent;
+            this.setState({Component: loadedComponent});
         }
     }
 
     componentDidMount() {
         setTimeout(() => {
-            if (this.state.Component === null) {
+            const {
+                Component
+            } = this.state;
+
+            if (Component === null) {
                 this.setState({loading: true});
             }
         }, 250);

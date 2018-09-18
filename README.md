@@ -1,32 +1,34 @@
-# clarissa
 Example realtime React + Node Twttr app
 
+# Pre-installation requirements
+* Local installation of node >= 8.x    (https://nodejs.org/en/)
+    * You can check your installed version with the command "node --version".
+* Local installation of rethinkdb (https://www.rethinkdb.com/docs/install/)
+    * if you don't want to litter up your host system, just start a RethinkDB docker container :)
+    * `docker run --name some-rethink -p 8080:8080 -p 29015:29015 -p 28015:28015 -d rethinkdb`
+ 
+
+# Installation
+
 server:
-* (start any rethink db) //if no DB started, tweets are handled in-memory
-* npm install
-* npm start (runs on 3001)
-* npm run lint //linting
-* npm run test //tests
+
+1. start rethink db (from anywhere)
+2. go to folder "server"
+3. npm install
+4. npm start (server will be running on http://localhost:3001)
 
 
 app:
-* npm install
-* npm start (runs on 3000) //dev mode
-* npm run lint //linting
+1. go to folder "app"
+2. npm install
+3. npm start (server will be running on http://localhost:3000)
+4. Login with any user name, password must be 'summit'
 
- Login with any user name, password must be 'summit'
+
+# Slides
+
+Slides can be found here:
+http://bit.ly/nodejs-slides
  
- Features:
- * get tweets + pagination
- * create tweet
- * tweet streaming (using server sent events and rethink DB)
- * simple etag header for cache control
- * validation + error handling
- * location header and link header (pagination, HATEOAS)
- * logging
- * simple rate limiting (using restify's throttling)
- * CORS
- * API versioning
- * get single tweet
 
  
