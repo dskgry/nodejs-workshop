@@ -13,6 +13,7 @@
     "lint": "eslint src",
     "build": "npm run lint && npm run test",
     "start": "nodemon ./src/index.js",
+    "start-clustered": "nodemon ./src/index.js --clustered",
     "test": "jest",
     "test-coverage": "jest --coverage"
   },

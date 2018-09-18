@@ -1,12 +1,13 @@
 /**
  * @author Sven Koelpin
  */
+/*eslint-disable */
 
 const veryBigNumber = 10000000000;
 
 module.exports = server => {
-
-    server.get('analyses',
+    server.get(
+        '/analyses',
         (req, res, next) => {
             const random = Math.random();
             if (random < 0.5) {
@@ -17,32 +18,44 @@ module.exports = server => {
         }
     );
 
-    server.post('analyses',
+    server.post(
+        '/analyses',
         (req, res, next) => {
-            let i = 0;
+            calcInThread(res, next);
 
-            while (i < veryBigNumber) {
-                i++;
-            }
-            res.send({timesDonaldTweetedToday: 5000});
-            next();
-
-            /* const increase = () => {
-             //do some calc
-             let chunk = 0;
-             while (chunk < 1000000) {
-             i++;
-             chunk++;
-             }
-             if (i === veryBigNumber) {
-             res.send({timesDonaldTweetedToday: i});
-             return next();
-             }
-             console.log(i);
-             setImmediate(increase);
-             };
-             increase();*/
-
+            //useTheEventLoop(res, next);
         }
     );
+
+    const calcInThread = (res, next) => {
+        let i = 0;
+
+        while (i < veryBigNumber) {
+            i += 1;
+        }
+        res.send({timesDonaldTweetedToday: 5000});
+        next();
+
+    };
+
+    const useTheEventLoop = (res, next) => {
+        let i = 0;
+        const increase = () => {
+            //do some calc
+            let chunk = 0;
+            while (chunk < 1000000) {
+                i++;
+                chunk++;
+            }
+            if (i === veryBigNumber) {
+                res.send({timesDonaldTweetedToday: i});
+                return next();
+            }
+            console.log(i);
+            setImmediate(increase);
+        };
+        increase();
+    }
 };
+
+/*eslint-enable */
