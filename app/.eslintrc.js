@@ -1,5 +1,9 @@
 module.exports = {
     "extends": "airbnb",
+    "parser": "babel-eslint",
+    "plugins": [
+        "flowtype"
+    ],
     "rules": {
         "linebreak-style": 0,
         "max-len": [2, 160, 2, {ignoreComments: true}],
@@ -17,6 +21,9 @@ module.exports = {
         "import/no-named-as-default": 0,
         "import/no-named-as-default-member": 0,
         "import/named": 0,
+        "spaced-comment": 0,
+        "lines-between-class-members": 0,
+        "react/sort-comp": 0,
     },
     "globals": {
         "window": true,

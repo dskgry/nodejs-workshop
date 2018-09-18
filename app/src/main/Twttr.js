@@ -1,3 +1,4 @@
+//@flow
 /**
  * @author Sven Koelpin
  */

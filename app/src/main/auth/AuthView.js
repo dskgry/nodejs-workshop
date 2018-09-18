@@ -1,3 +1,5 @@
+//@flow
+
 /**
  * @author Sven Koelpin
  */
@@ -11,12 +13,22 @@ import Loading from '../component/Loading';
 import { signIn } from './Auth';
 import { ROUTES } from '../router/AppRouter';
 
+type $Props = {|
+    history: Object;
+|}
 
-class AuthView extends Component {
+type $State = {|
+    userName: string;
+    pass: string;
+    loading: boolean;
+    loginError: boolean;
+|}
+
+class AuthView extends Component<$Props, $State> {
     constructor() {
         super();
-        this.onLogin = this.onLogin.bind(this);
-        this.handleFormChange = this.handleFormChange.bind(this);
+        (this: any).onLogin = this.onLogin.bind(this);
+        (this: any).handleFormChange = this.handleFormChange.bind(this);
 
         this.state = {
             userName: '',

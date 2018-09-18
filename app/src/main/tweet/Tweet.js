@@ -1,11 +1,17 @@
+//@flow
+
 /**
  * @author Sven Koelpin
  */
 import React from 'react';
 import { ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
+import type { $Tweet } from './Tweet.type';
 
 
-const Tweet = props => {
+type $Props = {|
+    tweet: $Tweet
+|}
+const Tweet = (props: $Props) => {
     const {
         user,
         tweet

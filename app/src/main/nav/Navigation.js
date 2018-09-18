@@ -1,3 +1,5 @@
+//@flow
+
 /**
  * @author Sven Koelpin
  */
@@ -8,7 +10,11 @@ import { Col, Row } from 'reactstrap';
 import { ROUTES } from '../router/AppRouter';
 import { signOut } from '../auth/Auth';
 
-const Navigation = ({home}) => (
+type $Props = {|
+    home?: boolean;
+|}
+
+const Navigation = ({home}: $Props) => (
     <Row>
         <Col>
             <NavBar>

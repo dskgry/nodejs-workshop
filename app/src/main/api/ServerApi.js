@@ -1,7 +1,9 @@
+//@flow
 /**
  * @author Sven Koelpin
  */
 
+import type { $CancelablePromise } from './CancelablePromise';
 import { cancelable } from './CancelablePromise';
 
 // eslint-disable-next-line
@@ -50,15 +52,15 @@ const request = async (path, options) => {
 };
 
 
-export const requestGet = path => cancelable(request(path));
+export const requestGet = (path: string): $CancelablePromise => cancelable(request(path));
 
-export const requestPost = (path, payload) => cancelable(request(path, {
+export const requestPost = (path: string, payload: Object | Array<*>): $CancelablePromise => cancelable(request(path, {
     method: 'POST',
     body: payload ? JSON.stringify(payload) : null,
 }));
 
-export const createSocket = (listener) => {
+export const createSocket = (listener: Function): WebSocket => {
     const socket = new WebSocket(WS_URI);
-    socket.addEventListener('message', event => listener(JSON.parse(event.data)));
+    socket.addEventListener('message', event => listener(JSON.parse((event: any).data)));
     return socket;
 };

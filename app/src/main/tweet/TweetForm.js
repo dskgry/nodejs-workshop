@@ -1,23 +1,35 @@
+//@flow
 /**
  * @author Sven Koelpin
  */
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import type { $Tweet } from './Tweet.type';
 
 const MIN_TWEET_LENGTH = 3;
 const MAX_TWEET_LENGTH = 100;
 
-class TweetForm extends Component {
-    constructor(props) {
+type $Props = {|
+    user: string;
+    onAddTweet: (tweet: $Tweet) => any;
+    loading: boolean;
+|}
+
+type $State = {|
+    tweet: string;
+|}
+
+class TweetForm extends Component<$Props, $State> {
+    constructor(props: $Props) {
         super(props);
-        this.onChangeTweet = this.onChangeTweet.bind(this);
-        this.onSubmitTweet = this.onSubmitTweet.bind(this);
+        (this: any).onChangeTweet = this.onChangeTweet.bind(this);
+        (this: any).onSubmitTweet = this.onSubmitTweet.bind(this);
 
         this.state = {tweet: ''};
     }
 
-    onSubmitTweet(event) {
+    onSubmitTweet(event: *) {
         event.preventDefault();
         const {
             user,
@@ -32,7 +44,7 @@ class TweetForm extends Component {
         this.setState({tweet: ''});
     }
 
-    onChangeTweet(event) {
+    onChangeTweet(event: *) {
         const tweet = event.target.value;
 
         if (tweet.length <= MAX_TWEET_LENGTH) {
@@ -42,8 +54,14 @@ class TweetForm extends Component {
 
 
     render() {
-        const {loading, user} = this.props;
-        const {tweet} = this.state;
+        const {
+            loading,
+            user
+        } = this.props;
+
+        const {
+            tweet
+        } = this.state;
 
         return (
             <Form inline onSubmit={this.onSubmitTweet}>

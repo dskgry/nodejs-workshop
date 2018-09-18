@@ -1,10 +1,16 @@
+//@flow
+
 /**
  * @author Sven Koelpin
  */
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-const Loading = ({cover}) => (
+type $Props = {|
+    cover?: boolean;
+|}
+
+const Loading = ({cover}: $Props) => (
     <Container cover={cover}>
         <LoaderElement/>
     </Container>

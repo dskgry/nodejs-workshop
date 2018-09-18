@@ -1,3 +1,4 @@
+//@flow
 /**
  * @author Sven Koelpin
  */
@@ -10,18 +11,30 @@ import TweetList from './TweetList';
 
 import { createSocket, requestGet, requestPost, URLS } from '../api/ServerApi';
 import { getToken } from '../auth/Auth';
+import type { $CancelablePromise } from '../api/CancelablePromise';
 import { CancelledPromiseError } from '../api/CancelablePromise';
+import type { $Tweet } from './Tweet.type';
 
-class TweetView extends Component {
+type $State = {|
+    tweets: Array<$Tweet>;
+    fetchingData: boolean;
+    user: string;
+    error: boolean;
+|}
+
+class TweetView extends Component<void, $State> {
+    socket: WebSocket;
+    request: $CancelablePromise;
+
     constructor() {
         super();
-        this.onAddTweet = this.onAddTweet.bind(this);
-        this.streamTweets = this.streamTweets.bind(this);
+        (this: any).onAddTweet = this.onAddTweet.bind(this);
+        (this: any).streamTweets = this.streamTweets.bind(this);
 
         this.state = {
             tweets: [],
             fetchingData: true,
-            user: getToken().name,
+            user: (getToken(): any).name,
             error: false
         };
     }
@@ -42,7 +55,7 @@ class TweetView extends Component {
     }
 
 
-    async onAddTweet(newTweet) {
+    async onAddTweet(newTweet: $Tweet) {
         this.setState({fetchingData: true});
         try {
             this.request = requestPost('tweets', newTweet);
@@ -85,7 +98,7 @@ class TweetView extends Component {
         }
     }
 
-    streamTweets(newTweet) {
+    streamTweets(newTweet: $Tweet) {
         if (this.tweetIsNotFetched(newTweet)) {
             const {
                 tweets
@@ -97,7 +110,7 @@ class TweetView extends Component {
         }
     }
 
-    tweetIsNotFetched(newTweet) {
+    tweetIsNotFetched(newTweet: $Tweet) {
         const {
             tweets
         } = this.state;

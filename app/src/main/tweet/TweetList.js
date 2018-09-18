@@ -1,3 +1,5 @@
+//@flow
+
 /**
  * @author Sven Koelpin
  */
@@ -6,8 +8,15 @@ import styled from 'styled-components';
 import { ListGroup } from 'reactstrap';
 import Loading from '../component/Loading';
 import Tweet from './Tweet';
+import type { $Tweet } from './Tweet.type';
 
-const TweetList = ({tweets, loading, error}) => {
+type $Props = {|
+    tweets: Array<$Tweet>;
+    loading: boolean;
+    error: boolean;
+|}
+
+const TweetList = ({tweets, loading, error}: $Props) => {
     if (error) {
         return <Error>Unable to load tweets :(</Error>;
     }
