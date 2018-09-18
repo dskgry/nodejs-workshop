@@ -7,7 +7,7 @@ module.exports = server => {
     // - Add validation middleware (validation.validateQueryParams(...))
     //   - page (number, min 1, max 10, default 1
     //   - size (number, min 1, max 100, default 10
-    server.get('tweets', (req, res, next) => {
+    server.get('/tweets', (req, res, next) => {
         //TODO
         // parsing + default param handling can be removed after validation is added. The validation middleware will do all of that for you (just use req.query.page and req.query.size).
         const page = req.query.page ? parseInt(req.query.page, 10) : 1;
