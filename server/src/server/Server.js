@@ -3,10 +3,11 @@
  */
 const restify = require('restify');
 const webSocket = require('ws');
+const corsMiddleware = require('restify-cors-middleware');
+
 const eventEmitter = require('../server/Events');
 const logger = require('./Logger');
 const security = require('../security/Security');
-const corsMiddleware = require('restify-cors-middleware');
 
 const cors = corsMiddleware({
     origins: ['http://localhost:3000'],

@@ -16,4 +16,3 @@ dataBase.init()
         logger.warn('DB not running. Using in memory data');
         server.start();
     });
-
