@@ -3,7 +3,6 @@
  */
 const restify = require('restify');
 const webSocket = require('ws');
-const logger = require('./Logger');
 const security = require('../security/Security');
 const corsMiddleware = require('restify-cors-middleware');
 const eventEmitter = require('./Events');
