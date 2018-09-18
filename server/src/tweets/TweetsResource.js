@@ -10,7 +10,7 @@ const httpHelper = require('../server/common/HttpHelper');
 
 
 module.exports = server => {
-    server.get('tweets',
+    server.get('/tweets',
         validation.validateQueryParams({
             page: yup.number().min(1).max(10).default(1),
             size: yup.number().min(1).max(100).default(10)
@@ -28,7 +28,7 @@ module.exports = server => {
         }
     );
 
-    server.post('tweets',
+    server.post('/tweets',
         validation.validatePostBody({
             tweet: yup.string().min(3).max(100).required(),
             user: yup.string().min(3).max(50).required()
@@ -44,7 +44,7 @@ module.exports = server => {
     );
 
 
-    server.get('tweets/:id',
+    server.get('/tweets/:id',
         async (req, res, next) => {
             const tweet = await tweetService.getTweet(req.params.id);
             //TODO

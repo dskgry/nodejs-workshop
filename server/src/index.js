@@ -1,6 +1,5 @@
-/**
- * @author Sven Koelpin
- */
+require('dotenv').load();
+
 const dataBase = require('./db/Database');
 const tweetResource = require('./tweets/TweetsResource');
 const server = require('./server/Server');
@@ -13,9 +12,3 @@ dataBase.init().then(() => server.start()).catch(e => {
     console.log('DB not running');
     process.exit();
 });
-
-
-
-
-
-

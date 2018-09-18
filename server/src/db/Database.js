@@ -2,30 +2,36 @@
  * @author Sven Koelpin
  */
 const rethink = require('rethinkdb');
-const config = require('../config/Config');
+const logger = require('../server/Logger');
 const testData = require('./FakeDatabase');
 const eventEmitter = require('../server/Events');
 
-const TWEETS_TABLE = 'tweets';
+const {
+    DB_NAME,
+    DB_HOST,
+    DB_PORT,
+    DB_PASS,
+    TWEETS_TABLE
+} = process.env;
 
 let connection = null;
 
 const createDataBase = async () => {
     const dbList = await rethink.dbList().run(connection);
-    if (!dbList.find(db => db === config.dbName)) {
-        console.log('Database not present. Creating it.');
-        await rethink.dbCreate(config.dbName).run(connection);
+    if (!dbList.find(db => db === DB_NAME)) {
+        logger.info('Database not present. Creating it.');
+        await rethink.dbCreate(DB_NAME).run(connection);
     }
 };
 
 const createTables = async () => {
-    await rethink.db(config.dbName).wait().run(connection);
+    await rethink.db(DB_NAME).wait().run(connection);
 
-    const tableList = await rethink.db(config.dbName).tableList().run(connection);
+    const tableList = await rethink.db(DB_NAME).tableList().run(connection);
     if (!tableList.find(tbl => tbl === TWEETS_TABLE)) {
-        console.log('Tweets table not present. Creating it.');
+        logger.info('Tweets table not present. Creating it.');
 
-        await rethink.db(config.dbName).tableCreate(TWEETS_TABLE).run(connection);
+        await rethink.db(DB_NAME).tableCreate(TWEETS_TABLE).run(connection);
         await rethink.table(TWEETS_TABLE).wait().run(connection);
         await rethink.table(TWEETS_TABLE).insert(testData.getTweetsTable().map(tweet => {
             const dbTweet = Object.assign({}, tweet);
@@ -33,7 +39,7 @@ const createTables = async () => {
             return dbTweet;
         })).run(connection);
 
-        console.log('Tweets table and test data ready.');
+        logger.info('Tweets table and test data ready.');
     } else {
         await rethink.table(TWEETS_TABLE).wait().run(connection);
     }
@@ -48,10 +54,10 @@ const initDBStream = () => {
 const init = async () => {
     if (connection === null) {
         connection = await rethink.connect({
-            host: config.dbHost,
-            port: config.dbPort,
-            db: config.dbName,
-            password: config.dbPass
+            host: DB_HOST,
+            port: DB_PORT,
+            db: DB_NAME,
+            password: DB_PASS
         });
 
         await createDataBase();
@@ -60,7 +66,7 @@ const init = async () => {
         initDBStream();
     }
 
-    console.log('Database ready');
+    logger.info('Database ready');
 };
 
 module.exports = {
