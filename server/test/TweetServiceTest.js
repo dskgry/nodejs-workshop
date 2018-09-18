@@ -2,6 +2,10 @@
  * @author Sven Koelpin
  */
 
+/**
+ * @author Sven Koelpin
+ */
+
 jest.mock('../src/db/FakeDatabase');
 
 const fakeDatabase = require('../src/db/FakeDatabase');

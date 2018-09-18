@@ -22,7 +22,8 @@ const server = restify.createServer();
 server.pre(cors.preflight);
 //middlewares use plugins
 server.use(cors.actual);
-//TODO add queryParser middleware
+server.use(restify.plugins.queryParser());
+//TODO add the bodyParser() middleware
 
 module.exports = {
     register(resource) {
