@@ -1,59 +1,35 @@
-/**
- * @author Sven Koelpin
- */
-
-const r = require('rethinkdb');
-const dataBase = require('../db/Database');
 const fakeDataBase = require('../db/FakeDatabase');
-const eventEmitter = require('../server/Events');
 
-const TABLE_NAME = dataBase.getTweetsTable();
 
-const getTweets = async (start, size) => {
-    const connection = dataBase.getConnection();
-    if (connection) {
-        const dbResult = await r.table(TABLE_NAME).orderBy(r.desc('createdAt')).slice(start, start + size).run(connection);
-        return dbResult.toArray();
-    }
-
-    //fallback: db is not running
-    const sortedTweets = [...fakeDataBase.getTweetsTable()].sort((a, b) => a.id < b.id);
-    return sortedTweets.slice(start, start + size);
+const getTweets = (start, size) => {
+    //TODO: Return all tweets (use the fakeDataBase)
+    //- sorted by id (desc) (Hint: use the array.sort-function, e.g. [1,2,3].sort((a,b)=>a<b))
+    //- use the given start + size parameters to create a sub-array (Hint: use the array.slice-function)
+    //Array#slice: https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
+    return [];
 };
 
-const getTweet = async id => {
-    const connection = dataBase.getConnection();
-    if (connection) {
-        return r.table(TABLE_NAME).get(id).run(connection);
-    }
+const getTweet = id => {
+    const tweetId = parseInt(id, 10);
 
-    //fallback: db is not running
-    return fakeDataBase.getTweetsTable().find(tweet => tweet.id === parseInt(id, 10));
+    //TODO return a single tweet by it's tweetId
+    //- Hint: use the array.find-function
+    return null;
 };
 
-const countTweets = async () => {
-    const connection = dataBase.getConnection();
-    if (connection) {
-        return r.table(TABLE_NAME).count().run(connection);
-    }
-
-    //fallback: db is not running
-    return fakeDataBase.getTweetsTable().length;
+const countTweets = () => {
+    //TODO: return the count of all tweets (TIP: use array.length)
+    return 0;
 };
 
-const createTweet = async tweet => {
-    const connection = dataBase.getConnection();
-    if (connection) {
-        const result = await r.table(TABLE_NAME).insert(Object.assign(tweet, {createdAt: new Date().getTime()})).run(connection);
-        return r.table(TABLE_NAME).get(result.generated_keys[0]).run(connection);
-    }
-
-    //fallback: db is not running
-    const newTweet = Object.assign({}, tweet, {id: fakeDataBase.getTweetsTable().length + 1});
-    fakeDataBase.getTweetsTable().push(newTweet);
-    eventEmitter.emit('newData', newTweet);
-    return newTweet;
+const createTweet = tweet => {
+    //TODO
+    //- add the tweet to the database (Hint: use array.push)
+    //- set the id of a tweet BEFORE adding it (the id should always be the current amount of tweets + 1)
+    //- return the created tweet
+    return null;
 };
+
 
 module.exports = {
     getTweets,
