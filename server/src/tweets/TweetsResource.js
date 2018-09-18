@@ -1,16 +1,17 @@
 /**
  * @author Sven Koelpin
  */
-
 const restify = require('restify');
 const yup = require('yup');
-const tweetService = require('./TweetService');
 const validation = require('../server/common/Validation');
 const httpHelper = require('../server/common/HttpHelper');
+const tweetService = require('./TweetService');
 
+const RESOURCE_PATH = '/tweets';
 
 module.exports = server => {
-    server.get('/tweets',
+    server.get(
+        RESOURCE_PATH,
         validation.validateQueryParams({
             page: yup.number().min(1).max(10).default(1),
             size: yup.number().min(1).max(100).default(10)
@@ -28,7 +29,8 @@ module.exports = server => {
         }
     );
 
-    server.post('/tweets',
+    server.post(
+        RESOURCE_PATH,
         validation.validatePostBody({
             tweet: yup.string().min(3).max(100).required(),
             user: yup.string().min(3).max(50).required()
@@ -43,8 +45,8 @@ module.exports = server => {
         }
     );
 
-
-    server.get('/tweets/:id',
+    server.get(
+        `${RESOURCE_PATH}/:id`,
         async (req, res, next) => {
             const tweet = await tweetService.getTweet(req.params.id);
             //TODO

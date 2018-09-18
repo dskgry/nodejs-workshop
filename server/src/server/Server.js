@@ -19,15 +19,18 @@ const cors = corsMiddleware({
 });
 
 
+//TODO give our api a name and a version
 const server = restify.createServer();
 
 
 //middlewares pre
 server.pre(cors.preflight);
+//TODO use throttle-plugin (burst:2, rate:2, ip:true)
 //middlewares use plugins
 server.use(cors.actual);
 server.use(restify.plugins.queryParser());
 server.use(restify.plugins.bodyParser());
+//TODO use gzip plugin
 
 server.use(security);
 
