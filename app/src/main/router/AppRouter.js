@@ -1,3 +1,4 @@
+//@flow
 /**
  * @author Sven Koelpin
  */
@@ -15,8 +16,8 @@ export const ROUTES = {
 };
 
 
-const AuthView = AsyncComponent(() => System.import('../auth/AuthView').then(module => module.default));
-const TweetView = AsyncComponent(() => System.import('../tweet/TweetView').then(module => module.default));
+const AuthView = AsyncComponent(() => import('../auth/AuthView').then(module => module.default));
+const TweetView = AsyncComponent(() => import('../tweet/TweetView').then(module => module.default));
 
 
 export default () => (

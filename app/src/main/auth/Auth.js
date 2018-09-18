@@ -1,3 +1,5 @@
+//@flow
+
 /**
  * @author Sven Koelpin
  */
@@ -8,7 +10,8 @@ let jwt = null;
 export const getToken = () => {
     if (!jwt) {
         if (localStorage.getItem(TOKEN) !== null) {
-            jwt = JSON.parse(localStorage.getItem(TOKEN));
+            const storageItem = localStorage.getItem(TOKEN);
+            jwt = storageItem ? JSON.parse(storageItem) : null;
         }
     }
     return jwt;
@@ -16,7 +19,7 @@ export const getToken = () => {
 
 export const isSignedIn = () => getToken() !== null;
 
-export const signIn = ({userName, pass}) => new Promise((resolve, reject) => {
+export const signIn = ({userName, pass}: { userName: string, pass: string }): Promise<*> => new Promise((resolve, reject) => {
     setTimeout(() => {
         if (pass === 'summit') {
             jwt = {name: userName};
