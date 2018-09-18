@@ -5,7 +5,8 @@
 const jwt = require('jsonwebtoken');
 
 const {
-    JWT_SECRET
+    JWT_SECRET,
+    TOKEN_EXPIRES_DAYS
 } = process.env;
 
 // eslint-disable-next-line
@@ -18,6 +19,9 @@ const authenticateJWT = (req, authKey) => {
     }
 };
 
+// eslint-disable-next-line
+const createToken = usr => jwt.sign({sub: usr}, JWT_SECRET, {expiresIn: `${TOKEN_EXPIRES_DAYS}d`});
+//console.log(createToken('myName'))
 
 module.exports = (req, res, next) => {
     const authToken = req.header('Authorization') ? req.header('Authorization') : req.params.authorization;

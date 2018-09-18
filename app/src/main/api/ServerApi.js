@@ -8,8 +8,8 @@ import { cancelable } from './CancelablePromise';
 
 // eslint-disable-next-line
 const SERVER_NAME = 'localhost:3001';
-const SERVER_URI = `http://${SERVER_NAME}/`;
-const WS_URI = `ws://${SERVER_NAME}/`;
+const SERVER_URI = `http://${SERVER_NAME}`;
+const WS_URI = `ws://${SERVER_NAME}`;
 const AUTH_TOKEN = 'donald-dump';
 
 export const URLS = {
