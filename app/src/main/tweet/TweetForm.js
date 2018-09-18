@@ -1,40 +1,50 @@
+//@flow
 /**
  * @author Sven Koelpin
  */
-import React, { PureComponent } from 'react';
-import { func, bool, string } from 'prop-types';
-import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
-import style from './tweetForm.less';
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import type { $Tweet } from './Tweet.type';
 
 const MIN_TWEET_LENGTH = 3;
 const MAX_TWEET_LENGTH = 100;
 
-export default class TweetForm extends PureComponent {
-    static get propTypes() {
-        return {
-            onAddTweet: func.isRequired,
-            loading: bool.isRequired,
-            user: string.isRequired
-        };
-    }
+type $Props = {|
+    user: string;
+    onAddTweet: (tweet: $Tweet) => any;
+    loading: boolean;
+|}
 
-    constructor(props) {
+type $State = {|
+    tweet: string;
+|}
+
+class TweetForm extends Component<$Props, $State> {
+    constructor(props: $Props) {
         super(props);
-        this.onChangeTweet = this.onChangeTweet.bind(this);
-        this.onSubmitTweet = this.onSubmitTweet.bind(this);
+        (this: any).onChangeTweet = this.onChangeTweet.bind(this);
+        (this: any).onSubmitTweet = this.onSubmitTweet.bind(this);
 
         this.state = {tweet: ''};
     }
 
-    onSubmitTweet(event) {
+    onSubmitTweet(event: *) {
         event.preventDefault();
-        const {user, onAddTweet} = this.props;
+        const {
+            user,
+            onAddTweet
+        } = this.props;
 
-        onAddTweet({tweet: this.state.tweet, user});
+        const {
+            tweet
+        } = this.state;
+
+        onAddTweet({tweet, user});
         this.setState({tweet: ''});
     }
 
-    onChangeTweet(event) {
+    onChangeTweet(event: *) {
         const tweet = event.target.value;
 
         if (tweet.length <= MAX_TWEET_LENGTH) {
@@ -44,13 +54,21 @@ export default class TweetForm extends PureComponent {
 
 
     render() {
-        const {loading, user} = this.props;
-        const {tweet} = this.state;
+        const {
+            loading,
+            user
+        } = this.props;
+
+        const {
+            tweet
+        } = this.state;
 
         return (
             <Form inline onSubmit={this.onSubmitTweet}>
-                <FormGroup className={style.form}>
-                    <Label for="tweet">{user}:</Label>
+                <FormGroup style={{margin: '10px auto'}}>
+                    <Label for="tweet">
+                        {`${user}:`}
+                    </Label>
                     <Input
                         value={tweet}
                         disabled={loading}
@@ -63,11 +81,26 @@ export default class TweetForm extends PureComponent {
                         placeholder="Tweet what u want"
                     />
 
-                    <span>{tweet.length}/{MAX_TWEET_LENGTH}</span>
+                    <CharsLeft>
+                        {tweet.length}
+                        /
+                        {MAX_TWEET_LENGTH}
+                    </CharsLeft>
 
-                    <Button disabled={loading || tweet.length < (MIN_TWEET_LENGTH)} color="primary">Let&apos;s do this</Button>
+                    <Button disabled={loading || tweet.length < (MIN_TWEET_LENGTH)} color="primary">
+                        Let&apos;s do this
+                    </Button>
                 </FormGroup>
             </Form>
         );
     }
 }
+
+export default TweetForm;
+
+const CharsLeft = styled.span`
+  margin: 10px 10px 10px 0;
+  display: inline-block;
+  width: 60px;
+  text-align: right;
+`;

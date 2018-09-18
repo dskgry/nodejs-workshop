@@ -6,7 +6,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        vendor: ['babel-polyfill', 'react', 'react-dom', 'react-router-dom', 'axios', 'reactstrap'],
+        vendor: ['@babel/polyfill', 'react', 'react-dom', 'react-router-dom', 'reactstrap', 'styled-components', 'react-transition-group'],
         twttr: ['./src/main/Twttr.js']
     },
     output: {
@@ -26,37 +26,37 @@ module.exports = {
                 use: [{loader: 'babel-loader'}]
             },
             {
-                test: /\.(less|css)$/,
+                test: /\.(css)$/,
                 use: [
                     'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: false,
-                            localIdentName: '[local]_[hash:base64:5]'
-                        }
-                    },
-                    'less-loader'
+                    'css-loader'
                 ]
-            },
-            {
-                test: /\.(jpe?g|png|gif|svg|eot|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?$/,
-                use: [{
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000
-                    }
-                }]
             }
         ]
     },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    chunks: 'initial',
+                    test: 'vendor',
+                    name: 'vendor',
+                    enforce: true,
+                    filename: `vendor.js`
+                },
+                commons: {
+                    chunks: 'initial',
+                    minChunks: 2,
+                    name: 'twttr',
+                    enforce: true,
+                    filename: `twttr.js`,
+                    reuseExistingChunk: true
+                },
+            }
+        }
+    },
     plugins: [
         new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('development')}}),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            minChunks: Infinity,
-            filename: 'vendor.js'
-        })
     ]
 
 };

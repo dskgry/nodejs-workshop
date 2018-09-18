@@ -1,17 +1,21 @@
 {
+  "plugins": [
+    "@babel/plugin-syntax-dynamic-import"
+  ],
   "presets": [
     [
-      "env",
+      "@babel/env",
       {
         "targets": {
           "browsers": [
-            "last 2 versions"
+            "ie >= 11"
           ]
         },
         "modules": false,
-        "useBuiltIns": true
+        "useBuiltIns": "usage"
       }
     ],
-    "react"
+    "@babel/preset-flow",
+    "@babel/preset-react"
   ]
 }
