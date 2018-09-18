@@ -22,8 +22,8 @@ const cors = corsMiddleware({
 
 const server = restify.createServer();
 
+
 //middlewares pre
-server.pre(logger);
 server.pre(cors.preflight);
 //middlewares use plugins
 server.use(cors.actual);
@@ -32,13 +32,16 @@ server.use(restify.plugins.bodyParser());
 
 server.use(security);
 
+
 //socket
 const wss = new webSocket.Server({server});
-//TODO
-// - listen to 'connection' - event of wss
-// - listen to eventEmitters 'newData' event (eventEmitters.addListener('event',handler))
-// - push the data to the client when the newData-Event is fired (ws.send(JSON.stringify(data))) <-- JSON.stringify is important here ;)
-// - remove the listener (eventEmitter.removeListener('event', handler)) when a client disconnects ('close'-event)
+
+wss.on('connection', ws => {
+    const onEventListener = newData => ws.send(JSON.stringify(newData));
+    eventEmitter.addListener('newData', onEventListener);
+    ws.on('close', () => eventEmitter.removeListener('newData', onEventListener));
+});
+
 
 module.exports = {
     register(resource) {
