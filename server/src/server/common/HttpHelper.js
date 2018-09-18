@@ -36,4 +36,3 @@ module.exports = {
     createLocationHeaderString,
     md5
 };
-

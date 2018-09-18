@@ -1,29 +1,34 @@
+//@flow
+
 /**
  * @author Sven Koelpin
  */
-import React, { PureComponent } from 'react';
-import { object } from 'prop-types';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import Navigation from '../nav/Navigation';
 import Loading from '../component/Loading';
-import style from './authView.less';
 
 import { signIn } from './Auth';
 import { ROUTES } from '../router/AppRouter';
 
+type $Props = {|
+    history: Object;
+|}
 
-class AuthView extends PureComponent {
-    static get propTypes() {
-        return {
-            history: object.isRequired
-        };
-    }
+type $State = {|
+    userName: string;
+    pass: string;
+    loading: boolean;
+    loginError: boolean;
+|}
 
+class AuthView extends Component<$Props, $State> {
     constructor() {
         super();
-        this.onLogin = this.onLogin.bind(this);
-        this.handleFormChange = this.handleFormChange.bind(this);
+        (this: any).onLogin = this.onLogin.bind(this);
+        (this: any).handleFormChange = this.handleFormChange.bind(this);
 
         this.state = {
             userName: '',
@@ -35,11 +40,16 @@ class AuthView extends PureComponent {
 
     async onLogin(event) {
         event.preventDefault();
+
+        const {
+            history
+        } = this.props;
+
         this.setState({loading: true, loginError: false});
 
         try {
             await signIn(this.state);
-            this.props.history.push(ROUTES.HOME);
+            history.push(ROUTES.HOME);
         } catch (e) {
             this.setState({loading: false, loginError: true});
         }
@@ -69,7 +79,7 @@ class AuthView extends PureComponent {
                                 <Input name="pass" value={pass} onChange={this.handleFormChange} required pattern=".{6,50}" type="password"/>
                             </FormGroup>
                             {
-                                loginError && <div className={style.err}>Ups that did not work. The password is 'summit' :)</div>
+                                loginError && <ErrorMsg>Ups that did not work. The password is &apos;summit&apos; :)</ErrorMsg>
                             }
                             <Button disabled={loading} color="primary">Let&apos;s go</Button>
                         </Form>
@@ -81,3 +91,13 @@ class AuthView extends PureComponent {
 }
 
 export default withRouter(AuthView);
+
+const ErrorMsg = styled.div`
+  text-align: center;
+  color: #721c24;
+  border: darkred solid 1px;
+  background: #f8d7da;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 5px;
+`;

@@ -1,12 +1,6 @@
-/**
- * @author Sven Koelpin
- */
-const cluster = require('cluster');
-const os = require('os');
-const http = require('http');
-
-const tweetResource = require('./tweets/TweetsResource');
-const analyzeResource = require('./analyze/AnalyzeResource');
+require('dotenv').load();
+const dataBase = require('./db/Database');
+const logger = require('./server/Logger');
 const server = require('./server/Server');
 
 
@@ -53,11 +47,3 @@ function startSingleProcess() {
         process.exit();
     });
 }
-
-
-
-
-
-
-
-
