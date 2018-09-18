@@ -3,12 +3,15 @@
  */
 
 const jwt = require('jsonwebtoken');
-const config = require('../config/Config');
+
+const {
+    JWT_SECRET
+} = process.env;
 
 // eslint-disable-next-line
 const authenticateJWT = (req, authKey) => {
     try {
-        req.currentUser = jwt.verify(authKey, config.jwtSecret);
+        req.currentUser = jwt.verify(authKey, JWT_SECRET);
         return true;
     } catch (e) {
         return false;

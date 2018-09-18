@@ -1,19 +1,20 @@
 /**
  * @author Sven Koelpin
  */
-
 const bunyan = require('bunyan');
-const config = require('../config/Config');
 
+const {
+    LOG_PATH
+} = process.env;
 
 const streams = [{
     stream: process.stdout
 }];
 
-if (config.logPath) {
+if (LOG_PATH) {
     streams.push({
         type: 'rotating-file',
-        path: config.logPath,
+        path: LOG_PATH,
         period: '1d',
         count: 356
     });

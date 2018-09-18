@@ -9,18 +9,25 @@ const eventEmitter = require('../server/Events');
 const logger = require('./Logger');
 const security = require('../security/Security');
 
+const {
+    ALLOWED_ORIGINS,
+    API_VERSION,
+    API_PORT
+} = process.env;
+
+
 const cors = corsMiddleware({
-    origins: ['http://localhost:3000'],
+    origins: ALLOWED_ORIGINS ? [ALLOWED_ORIGINS] : ['*'],
     allowHeaders: ['authorization']
 });
 
 
-const PORT = 3001;
+const PORT = API_PORT;
 
 const server = restify.createServer({
     name: 'Twttr',
     log: logger,
-    version: '1.0.0'
+    version: API_VERSION
 });
 
 server.on('uncaughtException', (req, res, route, err) => {

@@ -1,7 +1,4 @@
-/**
- * @author Sven Koelpin
- */
-
+require('dotenv').load();
 const dataBase = require('./db/Database');
 const logger = require('./server/Logger');
 const server = require('./server/Server');

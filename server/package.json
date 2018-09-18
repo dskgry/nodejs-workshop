@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "bunyan": "^1.8.12",
+    "dotenv": "^6.0.0",
     "jsonwebtoken": "^8.3.0",
     "restify": "^7.2.1",
     "restify-cors-middleware": "^1.1.1",
