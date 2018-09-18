@@ -2,15 +2,14 @@
  * @author Sven Koelpin
  */
 import React from 'react';
-import { arrayOf, shape, oneOfType, string, number, bool } from 'prop-types';
+import styled from 'styled-components';
 import { ListGroup } from 'reactstrap';
 import Loading from '../component/Loading';
 import Tweet from './Tweet';
-import style from './tweetList.less';
 
 const TweetList = ({tweets, loading, error}) => {
     if (error) {
-        return <div className={style.error}>Unable to load tweets :(</div>;
+        return <Error>Unable to load tweets :(</Error>;
     }
 
     return (
@@ -21,18 +20,9 @@ const TweetList = ({tweets, loading, error}) => {
     );
 };
 
-
-TweetList.propTypes = {
-    tweets: arrayOf(
-        shape({
-            id: oneOfType([number, string]).isRequired,
-            user: string.isRequired,
-            tweet: string.isRequired
-        })
-    ).isRequired,
-    loading: bool.isRequired,
-    error: bool.isRequired
-};
-
-
 export default TweetList;
+
+const Error = styled.div`
+  color: red;
+  text-align: center;
+`;

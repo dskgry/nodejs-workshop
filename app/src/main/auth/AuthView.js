@@ -1,25 +1,18 @@
 /**
  * @author Sven Koelpin
  */
-import React, { PureComponent } from 'react';
-import { object } from 'prop-types';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import Navigation from '../nav/Navigation';
 import Loading from '../component/Loading';
-import style from './authView.less';
 
 import { signIn } from './Auth';
 import { ROUTES } from '../router/AppRouter';
 
 
-class AuthView extends PureComponent {
-    static get propTypes() {
-        return {
-            history: object.isRequired
-        };
-    }
-
+class AuthView extends Component {
     constructor() {
         super();
         this.onLogin = this.onLogin.bind(this);
@@ -69,7 +62,7 @@ class AuthView extends PureComponent {
                                 <Input name="pass" value={pass} onChange={this.handleFormChange} required pattern=".{6,50}" type="password"/>
                             </FormGroup>
                             {
-                                loginError && <div className={style.err}>Ups that did not work. The password is 'summit' :)</div>
+                                loginError && <ErrorMsg>Ups that did not work. The password is &apos;summit&apos; :)</ErrorMsg>
                             }
                             <Button disabled={loading} color="primary">Let&apos;s go</Button>
                         </Form>
@@ -81,3 +74,13 @@ class AuthView extends PureComponent {
 }
 
 export default withRouter(AuthView);
+
+const ErrorMsg = styled.div`
+  text-align: center;
+  color: #721c24;
+  border: darkred solid 1px;
+  background: #f8d7da;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 5px;
+`;

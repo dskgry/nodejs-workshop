@@ -1,23 +1,14 @@
 /**
  * @author Sven Koelpin
  */
-import React, { PureComponent } from 'react';
-import { func, bool, string } from 'prop-types';
-import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
-import style from './tweetForm.less';
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 
 const MIN_TWEET_LENGTH = 3;
 const MAX_TWEET_LENGTH = 100;
 
-export default class TweetForm extends PureComponent {
-    static get propTypes() {
-        return {
-            onAddTweet: func.isRequired,
-            loading: bool.isRequired,
-            user: string.isRequired
-        };
-    }
-
+class TweetForm extends Component {
     constructor(props) {
         super(props);
         this.onChangeTweet = this.onChangeTweet.bind(this);
@@ -49,21 +40,20 @@ export default class TweetForm extends PureComponent {
 
         return (
             <Form inline onSubmit={this.onSubmitTweet}>
-                <FormGroup className={style.form}>
+                <FormGroup style={{margin: '10px auto'}}>
                     <Label for="tweet">{user}:</Label>
-                    <Input
-                        value={tweet}
-                        disabled={loading}
-                        required
-                        pattern={`.{${MIN_TWEET_LENGTH},${MAX_TWEET_LENGTH}}`}
-                        max={MAX_TWEET_LENGTH}
-                        onChange={this.onChangeTweet}
-                        type="text"
-                        name="tweet"
-                        placeholder="Tweet what u want"
+                    <Input value={tweet}
+                           disabled={loading}
+                           required
+                           pattern={`.{${MIN_TWEET_LENGTH},${MAX_TWEET_LENGTH}}`}
+                           max={MAX_TWEET_LENGTH}
+                           onChange={this.onChangeTweet}
+                           type="text"
+                           name="tweet"
+                           placeholder="Tweet what u want"
                     />
 
-                    <span>{tweet.length}/{MAX_TWEET_LENGTH}</span>
+                    <CharsLeft>{tweet.length}/{MAX_TWEET_LENGTH}</CharsLeft>
 
                     <Button disabled={loading || tweet.length < (MIN_TWEET_LENGTH)} color="primary">Let&apos;s do this</Button>
                 </FormGroup>
@@ -71,3 +61,12 @@ export default class TweetForm extends PureComponent {
         );
     }
 }
+
+export default TweetForm;
+
+const CharsLeft = styled.span`
+  margin: 10px 10px 10px 0;
+  display: inline-block;
+  width: 60px;
+  text-align: right;
+`;

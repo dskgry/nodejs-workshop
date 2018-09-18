@@ -2,7 +2,7 @@
  * @author Sven Koelpin
  */
 
-import axios from 'axios';
+import { cancelable } from './CancelablePromise';
 
 // eslint-disable-next-line
 const SERVER_NAME = 'localhost:3001';
@@ -14,40 +14,50 @@ export const URLS = {
     TWEETS: 'tweets'
 };
 
-let eventStream = null;
+const sanitize = (path) => path.indexOf('/') === 0 ? path.substr(1) : path;
 
-const axiosClient = axios.create({
-    baseURL: SERVER_URI,
-    timeout: 7000
-});
-axiosClient.defaults.headers.common.Authorization = AUTH_TOKEN;
-
-const disableCache = path => {
-    if (path.indexOf('?') === -1) {
-        return `${path}?t=${new Date().getTime()}`;
+const getJSON = async (response) => {
+    try {
+        return await response.json();
+    } catch (e) {
+        return null;
     }
-    return `${path}&t=${new Date().getTime()}`;
+};
+
+const request = async (path, options) => {
+    let result;
+    try {
+        result = await fetch(`${SERVER_URI}/${sanitize(path)}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: AUTH_TOKEN,
+            },
+            ...options,
+        });
+    } catch (e) {
+        throw e;
+    }
+    checkStatus(result);
+    return getJSON(result);
+};
+
+const checkStatus = response => {
+    if (response.status >= 200 && response.status < 400) {
+        return response;
+    }
+    throw new Error(response.statusText);
 };
 
 
-export default {
-    async get(path) {
-        const response = await axiosClient.get(disableCache(path));
-        return response.data;
-    },
-    async post(path, data) {
-        const response = await axiosClient.post(disableCache(path), data);
-        return response.data;
-    },
-    subscribeStream(onNewTweet) {
-        this.unSubscribeStream();
-        eventStream = new WebSocket(WS_URI);
-        eventStream.addEventListener('message', event => onNewTweet(JSON.parse(event.data)));
-    },
-    unSubscribeStream() {
-        if (eventStream) {
-            eventStream.close();
-            eventStream = null;
-        }
-    }
+export const requestGet = path => cancelable(request(path));
+
+export const requestPost = (path, payload) => cancelable(request(path, {
+    method: 'POST',
+    body: payload ? JSON.stringify(payload) : null,
+}));
+
+export const createSocket = (listener) => {
+    const socket = new WebSocket(WS_URI);
+    socket.addEventListener('message', event => listener(JSON.parse(event.data)));
+    return socket;
 };

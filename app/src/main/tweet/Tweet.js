@@ -2,26 +2,19 @@
  * @author Sven Koelpin
  */
 import React from 'react';
-import { shape, string } from 'prop-types';
 import { ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
-import style from './tweet.less';
 
 
 const Tweet = props => {
     const {user, tweet} = props.tweet;
     return (
-        <ListGroupItem className={style.tweet}>
+        <ListGroupItem style={{display: 'block'}}>
             <ListGroupItemHeading>{user}</ListGroupItemHeading>
-            <ListGroupItemText className={style.content}>{tweet}</ListGroupItemText>
+            <ListGroupItemText style={{overflowWrap: 'break-word', wordWrap: 'break-word'}}>
+                {tweet}
+            </ListGroupItemText>
         </ListGroupItem>
     );
-};
-
-Tweet.propTypes = {
-    tweet: shape({
-        user: string.isRequired,
-        tweet: string.isRequired
-    }).isRequired
 };
 
 export default Tweet;
