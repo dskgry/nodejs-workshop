@@ -1,6 +1,3 @@
-/**
- * @author Sven Koelpin
- */
 const yup = require('yup');
 
 const validate = async ({shape, what, req, res, next}) => {
