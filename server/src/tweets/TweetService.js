@@ -1,7 +1,3 @@
-/**
- * @author Sven Koelpin
- */
-
 const r = require('rethinkdb');
 const dataBase = require('../db/Database');
 

@@ -1,7 +1,6 @@
 /**
  * @author Sven Koelpin
  */
-
 const restify = require('restify');
 const webSocket = require('ws');
 const logger = require('./Logger');
@@ -9,17 +8,22 @@ const security = require('../security/Security');
 const corsMiddleware = require('restify-cors-middleware');
 const eventEmitter = require('./Events');
 
+const {
+    ALLOWED_ORIGINS,
+    API_PORT
+} = process.env;
+
 
 const cors = corsMiddleware({
-    origins: ['http://localhost:3000'],
+    origins: ALLOWED_ORIGINS ? [ALLOWED_ORIGINS] : ['*'],
     allowHeaders: ['authorization']
 });
+
 
 const server = restify.createServer();
 
 
 //middlewares pre
-server.pre(logger);
 server.pre(cors.preflight);
 //middlewares use plugins
 server.use(cors.actual);
@@ -40,15 +44,15 @@ wss.on('connection', ws => {
 
 
 module.exports = {
-    start() {
-        server.listen(3001, () => {
-            console.log('server up');
-        })
-    },
-    register(resource){
+    register(resource) {
         resource(server);
     },
-    getServer(){
+    getServer() {
         return server;
+    },
+    start() {
+        server.listen(API_PORT, () => {
+            console.log(`Server started: http://localhost:${API_PORT}`);
+        });
     }
 };

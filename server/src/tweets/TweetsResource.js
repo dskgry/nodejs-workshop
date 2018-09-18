@@ -7,37 +7,40 @@ const tweetService = require('./TweetService');
 const validation = require('../server/common/Validation');
 
 module.exports = server => {
-    server.get('tweets',
+    server.get('/tweets',
         validation.validateQueryParams({
             page: yup.number().min(1).max(10).default(1),
             size: yup.number().min(1).max(100).default(10)
         }),
+        //TODO: await the result before sending it
         async (req, res, next) => {
             const {page, size} = req.query;
             const start = (page - 1) * size;
-            const allTweets = await tweetService.getTweets(start, size);
+            const allTweets = tweetService.getTweets(start, size); //TODO this is a promise now :)
             res.send(allTweets);
             next();
         }
     );
 
-    server.post('tweets',
+    server.post('/tweets',
         validation.validatePostBody({
             tweet: yup.string().min(3).max(100).required(),
             user: yup.string().min(3).max(50).required()
         }),
-        async (req, res, next) => {
-            const tweet = await tweetService.createTweet(req.body);
+        //TODO: Convert to async method and await result before sending it
+        (req, res, next) => {
+            const tweet = tweetService.createTweet(req.body);      //TODO this is a promise now :)
             res.send(201, tweet);
             next();
         }
     );
 
 
-    server.get('tweets/:id',
-        async (req, res, next) => {
+    server.get('/tweets/:id',
+        //TODO: Convert to async method and await result before sending it
+        (req, res, next) => {
             const tweetId = parseInt(req.params.id, 10);
-            const tweet = await tweetService.getTweet(tweetId);
+            const tweet = tweetService.getTweet(tweetId); //TODO this is a promise now :)
             if (tweet) {
                 res.send(tweet);
             } else {
