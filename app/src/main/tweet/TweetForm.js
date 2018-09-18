@@ -19,9 +19,16 @@ class TweetForm extends Component {
 
     onSubmitTweet(event) {
         event.preventDefault();
-        const {user, onAddTweet} = this.props;
+        const {
+            user,
+            onAddTweet
+        } = this.props;
 
-        onAddTweet({tweet: this.state.tweet, user});
+        const {
+            tweet
+        } = this.state;
+
+        onAddTweet({tweet, user});
         this.setState({tweet: ''});
     }
 
@@ -41,21 +48,30 @@ class TweetForm extends Component {
         return (
             <Form inline onSubmit={this.onSubmitTweet}>
                 <FormGroup style={{margin: '10px auto'}}>
-                    <Label for="tweet">{user}:</Label>
-                    <Input value={tweet}
-                           disabled={loading}
-                           required
-                           pattern={`.{${MIN_TWEET_LENGTH},${MAX_TWEET_LENGTH}}`}
-                           max={MAX_TWEET_LENGTH}
-                           onChange={this.onChangeTweet}
-                           type="text"
-                           name="tweet"
-                           placeholder="Tweet what u want"
+                    <Label for="tweet">
+                        {`${user}:`}
+                    </Label>
+                    <Input
+                        value={tweet}
+                        disabled={loading}
+                        required
+                        pattern={`.{${MIN_TWEET_LENGTH},${MAX_TWEET_LENGTH}}`}
+                        max={MAX_TWEET_LENGTH}
+                        onChange={this.onChangeTweet}
+                        type="text"
+                        name="tweet"
+                        placeholder="Tweet what u want"
                     />
 
-                    <CharsLeft>{tweet.length}/{MAX_TWEET_LENGTH}</CharsLeft>
+                    <CharsLeft>
+                        {tweet.length}
+                        /
+                        {MAX_TWEET_LENGTH}
+                    </CharsLeft>
 
-                    <Button disabled={loading || tweet.length < (MIN_TWEET_LENGTH)} color="primary">Let&apos;s do this</Button>
+                    <Button disabled={loading || tweet.length < (MIN_TWEET_LENGTH)} color="primary">
+                        Let&apos;s do this
+                    </Button>
                 </FormGroup>
             </Form>
         );

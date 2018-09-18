@@ -19,4 +19,3 @@ Route.defaultProps = {
 };
 
 export default Route;
-

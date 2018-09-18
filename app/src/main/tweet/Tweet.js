@@ -6,7 +6,11 @@ import { ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstr
 
 
 const Tweet = props => {
-    const {user, tweet} = props.tweet;
+    const {
+        user,
+        tweet
+    } = props.tweet;   //eslint-disable-line
+
     return (
         <ListGroupItem style={{display: 'block'}}>
             <ListGroupItemHeading>{user}</ListGroupItemHeading>
@@ -18,4 +22,3 @@ const Tweet = props => {
 };
 
 export default Tweet;
-

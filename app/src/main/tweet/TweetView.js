@@ -48,8 +48,11 @@ class TweetView extends Component {
             this.request = requestPost('tweets', newTweet);
             const createdTweet = await this.request;
 
-            const nextTweets =
-                this.tweetIsNotFetched(createdTweet) ? [createdTweet, ...this.state.tweets] : this.state.tweets;
+            const {
+                tweets
+            } = this.state;
+
+            const nextTweets = this.tweetIsNotFetched(createdTweet) ? [createdTweet, ...tweets] : tweets;
 
             this.setState({
                 tweets: nextTweets,
@@ -84,14 +87,21 @@ class TweetView extends Component {
 
     streamTweets(newTweet) {
         if (this.tweetIsNotFetched(newTweet)) {
+            const {
+                tweets
+            } = this.state;
+
             this.setState({
-                tweets: [newTweet, ...this.state.tweets]
+                tweets: [newTweet, ...tweets]
             });
         }
     }
 
     tweetIsNotFetched(newTweet) {
-        return typeof this.state.tweets.find(tweet => tweet.id === newTweet.id) === 'undefined';
+        const {
+            tweets
+        } = this.state;
+        return typeof tweets.find(tweet => tweet.id === newTweet.id) === 'undefined';
     }
 
     render() {
@@ -119,7 +129,6 @@ class TweetView extends Component {
 }
 
 export default TweetView;
-
 
 const Wrap = styled.div`
   min-height: 200px;

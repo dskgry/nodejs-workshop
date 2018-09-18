@@ -28,11 +28,16 @@ class AuthView extends Component {
 
     async onLogin(event) {
         event.preventDefault();
+
+        const {
+            history
+        } = this.props;
+
         this.setState({loading: true, loginError: false});
 
         try {
             await signIn(this.state);
-            this.props.history.push(ROUTES.HOME);
+            history.push(ROUTES.HOME);
         } catch (e) {
             this.setState({loading: false, loginError: true});
         }

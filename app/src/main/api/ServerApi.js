@@ -24,6 +24,14 @@ const getJSON = async (response) => {
     }
 };
 
+
+const checkStatus = response => {
+    if (response.status >= 200 && response.status < 400) {
+        return response;
+    }
+    throw new Error(response.statusText);
+};
+
 const request = async (path, options) => {
     let result;
     try {
@@ -39,13 +47,6 @@ const request = async (path, options) => {
     }
     checkStatus(result);
     return getJSON(result);
-};
-
-const checkStatus = response => {
-    if (response.status >= 200 && response.status < 400) {
-        return response;
-    }
-    throw new Error(response.statusText);
 };
 
 
