@@ -1,8 +1,3 @@
-/**
- * @author Sven Koelpin
- */
-
-
 const fakeDataBase = require('../db/FakeDatabase');
 
 
@@ -21,7 +16,7 @@ const countTweets = () => {
 };
 
 const createTweet = tweet => {
-    const newTweet = Object.assign(tweet, {id: fakeDataBase.getTweetsTable().length + 1});
+    const newTweet = Object.assign({}, tweet, {id: fakeDataBase.getTweetsTable().length + 1});
     fakeDataBase.getTweetsTable().push(newTweet);
     return newTweet;
 };
