@@ -1,36 +1,50 @@
+/**
+ * @author Sven Koelpin
+ */
+
 const yup = require('yup');
 const tweetService = require('./TweetService');
 const validation = require('../server/common/Validation');
 
 module.exports = server => {
-    //TODO
-    // - Add validation middleware (validation.validateQueryParams(...))
-    //   - page (number, min 1, max 10, default 1
-    //   - size (number, min 1, max 100, default 10
-    server.get('/tweets', (req, res, next) => {
-        //TODO
-        // parsing + default param handling can be removed after validation is added. The validation middleware will do all of that for you (just use req.query.page and req.query.size).
-        const page = req.query.page ? parseInt(req.query.page, 10) : 1;
-        const size = req.query.size ? parseInt(req.query.size, 10) : 10;
-        const start = (page - 1) * size;
-        const allTweets = tweetService.getTweets(start, size);
-        res.send(allTweets);
-        next();
-    });
-    //TODO:
-    // - Implement createTweet, which listens to HTTP-POST (path: 'tweets'). Use  TweetService#createTweet
-    // - The posted tweet is saved in req.body (don't forget to add the bodyParser()-middleware in Server.js)
-    // - respond with the created tweet and the status code 201 (res.send(STATUS_CODE, data)
-    // - Add validation middleware (validation.validatePostBody(...)).
-    //  - a tweet needs to have at least the properties:
-    //      - tweet (string, min. 3 chars, max 100 chars, required)
-    //      - user (string, min. 3 chars, max 50 chars, required)
+    server.get('/tweets',
+        validation.validateQueryParams({
+            page: yup.number().min(1).max(10).default(1),
+            size: yup.number().min(1).max(100).default(10)
+        }),
+        (req, res, next) => {
+            const {page, size} = req.query;
+            const start = (page - 1) * size;
+            const allTweets = tweetService.getTweets(start, size);
+            res.send(allTweets);
+            next();
+        }
+    );
 
-    //TODO:
-    // - Implement getTweet which gets a single tweet by its id.
-    //   - The method is a HTTP-GET method that has a dynamic path parameter :id (path: 'tweets/:id).
-    //   - Use TweetService#getTweet
-    //   - The path-parameter can be found in req.params (don't forget to parse it to a number!)
-    //   - Return status code 404 when there is no tweet for the given id
+    server.post('/tweets',
+        validation.validatePostBody({
+            tweet: yup.string().min(3).max(100).required(),
+            user: yup.string().min(3).max(50).required()
+        }),
+        (req, res, next) => {
+            const tweet = tweetService.createTweet(req.body);
+            res.send(201, tweet);
+            next();
+        }
+    );
+
+
+    server.get('/tweets/:id',
+        (req, res, next) => {
+            const tweetId = parseInt(req.params.id, 10);
+            const tweet = tweetService.getTweet(tweetId);
+            if (tweet) {
+                res.send(tweet);
+            } else {
+                res.send(404);
+            }
+            next();
+        }
+    );
 
 };

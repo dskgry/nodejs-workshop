@@ -1,7 +1,3 @@
-/**
- * @author Sven Koelpin
- */
-
 //TODO
 // - export a middleware that checks if the Authorization-Header is present and has the value "donald-dump"
 // - use the req.header('HEADER')-Function to extract a header

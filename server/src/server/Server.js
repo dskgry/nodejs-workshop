@@ -1,6 +1,7 @@
 /**
  * @author Sven Koelpin
  */
+//TODO require logger + security
 const restify = require('restify');
 const corsMiddleware = require('restify-cors-middleware');
 
@@ -19,11 +20,14 @@ const cors = corsMiddleware({
 const server = restify.createServer();
 
 //middlewares pre
+//TODO add logger middleware
 server.pre(cors.preflight);
 //middlewares use plugins
 server.use(cors.actual);
 server.use(restify.plugins.queryParser());
-//TODO add the bodyParser() middleware
+server.use(restify.plugins.bodyParser());
+
+//TODO add security middleware
 
 module.exports = {
     register(resource) {
