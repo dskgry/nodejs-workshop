@@ -18,8 +18,8 @@
   "dependencies": {
     "bunyan": "^1.8.12",
     "jsonwebtoken": "^8.3.0",
-    "restify": "^6.0.1",
-    "restify-cors-middleware": "^1.0.1",
+    "restify": "^7.2.1",
+    "restify-cors-middleware": "^1.1.1",
     "rethinkdb": "^2.3.3",
     "ws": "^6.0.0",
     "yup": "^0.26.5"

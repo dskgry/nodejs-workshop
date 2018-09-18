@@ -1,15 +1,13 @@
 /**
  * @author Sven Koelpin
  */
-
-const RESOURCE_PATH = 'tweets';
-
 const restify = require('restify');
 const yup = require('yup');
 const validation = require('../server/common/Validation');
 const httpHelper = require('../server/common/HttpHelper');
 const tweetService = require('./TweetService');
 
+const RESOURCE_PATH = '/tweets';
 
 module.exports = server => {
     server.get(
