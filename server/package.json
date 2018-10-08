@@ -16,7 +16,7 @@
     "test": "jest",
     "test-coverage": "jest --coverage",
     "cjs": "node --experimental-modules ../basics/esm/cjs",
-    "esm": "node --experimental-modules ../basics/esm/esm.mjs"
+    "esm": "node --experimental-modules ../basics/esm/esm"
   },
   "dependencies": {
     "bunyan": "^1.8.12",
