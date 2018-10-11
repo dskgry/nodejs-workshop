@@ -14,7 +14,7 @@
     "build": "npm run lint && npm run test",
     "start": "nodemon ./src/index.js",
     "start-threaded": "nodemon --experimental-worker ./src/index.js ",
-    "start-clustered": "nodemon ./src/index.js --clustered",
+    "start-clustered": "nodemon --experimental-worker ./src/index.js --clustered",
     "test": "jest",
     "test-coverage": "jest --coverage"
   },
